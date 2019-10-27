@@ -219,7 +219,7 @@ DEPENDENCIES
   tzinfo-data
   web-console (= 4.0.1)
   webdrivers (= 4.1.2)
-  webpacker (= 4.0.7)
+  webpacker
 
 BUNDLED WITH
    2.0.2
