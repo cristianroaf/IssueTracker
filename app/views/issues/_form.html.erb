@@ -1,0 +1,82 @@
+<%= form_with(model: issue, local: true) do |form| %>
+  <% if issue.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(issue.errors.count, "error") %> prohibited this issue from being saved:</h2>
+
+      <ul>
+        <% issue.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :Title %>
+    <%= form.text_field :Title %>
+  </div>
+
+  <div class="field">
+    <%= form.label :Description %>
+    <%= form.text_field :Description %>
+  </div>
+
+  <div class="field">
+    <%= form.label :Type %>
+    <%= form.text_field :Type %>
+  </div>
+
+  <div class="field">
+    <%= form.label :Priority %>
+    <%= form.text_field :Priority %>
+  </div>
+
+  <div class="field">
+    <%= form.label :Status %>
+    <%= form.text_field :Status %>
+  </div>
+
+  <div class="field">
+    <%= form.label :user_id %>
+    <%= form.text_field :user_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :asignee_id %>
+    <%= form.text_field :asignee_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :Votes %>
+    <%= form.number_field :Votes %>
+  </div>
+
+  <div class="field">
+    <%= form.label :Watchers %>
+    <%= form.number_field :Watchers %>
+  </div>
+
+  <div class="field">
+    <%= form.label :at_name %>
+    <%= form.text_field :at_name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :at_format %>
+    <%= form.text_field :at_format %>
+  </div>
+
+  <div class="field">
+    <%= form.label :at_size %>
+    <%= form.number_field :at_size %>
+  </div>
+
+  <div class="field">
+    <%= form.label :at_updated_at %>
+    <%= form.datetime_select :at_updated_at %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

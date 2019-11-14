@@ -1,0 +1,31 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  Title: MyString
+  Description: MyString
+  Type: MyString
+  Priority: MyString
+  Status: MyString
+  user_id: MyString
+  asignee_id: MyString
+  Votes: 1
+  Watchers: 1
+  at_name: MyString
+  at_format: MyString
+  at_size: 1
+  at_updated_at: 2019-11-14 18:47:17
+
+two:
+  Title: MyString
+  Description: MyString
+  Type: MyString
+  Priority: MyString
+  Status: MyString
+  user_id: MyString
+  asignee_id: MyString
+  Votes: 1
+  Watchers: 1
+  at_name: MyString
+  at_format: MyString
+  at_size: 1
+  at_updated_at: 2019-11-14 18:47:17

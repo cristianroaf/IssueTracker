@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @watcher.user_id %>
+</p>
+
+<p>
+  <strong>Issue:</strong>
+  <%= @watcher.issue_id %>
+</p>
+
+<%= link_to 'Edit', edit_watcher_path(@watcher) %> |
+<%= link_to 'Back', watchers_path %>
