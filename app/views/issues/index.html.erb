@@ -1,5 +1,33 @@
 <p id="notice"><%= notice %></p>
 
+<style>
+.container {
+  position: relative;
+}
+
+.topright {
+  position: absolute;
+  top: 0px;
+  right: 16px;
+  font-size: 12px;
+}
+</style>
+
+<div class="container">
+  <div class="topright">
+
+  <% if user_signed_in? %>
+    <li>
+    <%= link_to('Logout', destroy_user_session_path, method: :delete) %>        
+    </li>
+  <% else %>
+    <li>
+    <%= link_to('Login', new_user_session_path) %>  
+    </li>
+  <% end %>
+  </div>
+</div>
+
 <h1>Issues</h1>
 
 <table>
