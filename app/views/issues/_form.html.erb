@@ -11,7 +11,8 @@
         </ul>
       </div>
     <% end %>
-
+    
+    
     <div class="form-group">
       <div class="field">
         <%= form.label :Title %>
@@ -35,51 +36,10 @@
       <%= form.label :Priority %>
       <%= form.select :Priority, options_for_select(Issue.priority, issue[:Priority]), prompt: true, :class => 'genForm_dropBox' %>
     </div>
-
-    <div class="field">
-      <%= form.label :Status %>
-      <%= form.select :Status, options_for_select(Issue.status), :class => 'genForm_dropBox' %>
-    </div>
-
-    <div class="field">
-      <%= form.label :user_id %>
-      <%= form.text_field :user_id %>
-    </div>
-
-    <div class="field">
-      <%= form.label :asignee_id %>
-      <%= form.text_field :asignee_id %>
-    </div>
-
-    <div class="field">
-      <%= form.label :Votes %>
-      <%= form.number_field :Votes %>
-    </div>
-
-    <div class="field">
-      <%= form.label :Watchers %>
-      <%= form.number_field :Watchers %>
-    </div>
-
-    <div class="field">
-      <%= form.label :at_name %>
-      <%= form.text_field :at_name %>
-    </div>
-
-    <div class="field">
-      <%= form.label :at_format %>
-      <%= form.text_field :at_format %>
-    </div>
-
-    <div class="field">
-      <%= form.label :at_size %>
-      <%= form.number_field :at_size %>
-    </div>
-
-    <div class="field">
-      <%= form.label :at_updated_at %>
-      <%= form.datetime_select :at_updated_at %>
-    </div>
+    
+    <%= form.text_field :user_id, required: true, class: 'form-control', value:current_user.id  %>
+    <%= form.text_field :Status, required: true, class: 'form-control', value:"New" %>
+    <%= form.text_field :Watchers, required: true, class: 'form-control', value:1 %>
 
     <div class="form-group">
       <label for="FormControlFile1">Attach</label>
