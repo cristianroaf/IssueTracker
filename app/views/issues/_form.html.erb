@@ -1,3 +1,6 @@
+<script src="http://js.nicedit.com/nicEdit-latest.js" type="text/javascript"></script>
+<script type="text/javascript">bkLib.onDomLoaded(nicEditors.allTextAreas);</script>
+
 <div class="px-5">
   <%= form_with(model: issue, local: true) do |form| %>
     <% if issue.errors.any? %>
@@ -12,51 +15,54 @@
       </div>
     <% end %>
 
-    <div class="form-group">
+
+    <%= form.label :Title %>
+    <div class="form-row">
       <div class="field">
-        <%= form.label :Title %>
         <%= form.text_field :Title %>
       </div>
     </div>
 
+    <%= form.label :Description %>
     <div class="field">
-      <%= form.label :Description %>
-      <%= form.text_field :Description %>
-    </div>
+      <textarea id="Description" style="width: 70%">
+      </textarea>
 
+    </div>
+        
+    <%= form.label :Type %>
     <div class="form-group">
       <div class="field">
-        <%= form.label :Type %>
-        <%= form.select :Type, options_for_select(Issue.type, issue[:Type]), prompt: true, :class => 'genForm_dropBox' %>
+        <%= form.select :Type, options_for_select(Issue.type, issue[:Type]), :class => 'genForm_dropBox' %>
       </div>
     </div>
 
+    <%= form.label :Priority %>
     <div class="field">
-      <%= form.label :Priority %>
-      <%= form.select :Priority, options_for_select(Issue.priority, issue[:Priority]), prompt: true, :class => 'genForm_dropBox' %>
+      <%= form.select :Priority, options_for_select(Issue.priority, issue[:Priority]), :class => 'genForm_dropBox' %>
     </div>
 
+    <%= form.label :Status %>
     <div class="field">
-      <%= form.label :Status %>
       <%= form.select :Status, options_for_select(Issue.status), :class => 'genForm_dropBox' %>
     </div>
 
-    <div class="field">
+    <div class="field" style="display:none;">
       <%= form.label :user_id %>
       <%= form.text_field :user_id %>
     </div>
 
-    <div class="field">
+    <div class="field" style="display:none;">
       <%= form.label :asignee_id %>
       <%= form.text_field :asignee_id %>
     </div>
 
-    <div class="field">
+    <div class="field" style="display:none;">
       <%= form.label :Votes %>
       <%= form.number_field :Votes %>
     </div>
 
-    <div class="field">
+    <div class="field" style="display:none;">
       <%= form.label :Watchers %>
       <%= form.number_field :Watchers %>
     </div>
@@ -86,8 +92,12 @@
       <input type="file" class="form-control-file" id="FormControlFile1">
     </div>
 
-    <div class="actions">
-      <%= form.submit %>
+    <div style="float:right;"">
+      <%= form.submit class:"btn btn-outline-dark"%>
+    <button type="button" class="btn btn-outline-dark">
+      <%= link_to 'Back', issues_path %>
+      
+    </button>
     </div>
   <% end %>
 
