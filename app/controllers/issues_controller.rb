@@ -39,6 +39,24 @@ class IssuesController < ApplicationController
           format.json {render json: {"error":"User with id="+params[:watcher]+" does not exist"}, status: :unprocessable_entity}
         end
       end
+      
+      if params.has_key?(:sort)
+        if params[:sort] == "votes"
+          @issues = Issue.all.order('Votes asc')
+        elsif params[:sort] == "priority"
+          @issues = Issue.all.order('Priority asc')
+        elsif params[:sort] == "kind"
+          @issues = Issue.all.order('Type desc')
+        elsif params[:sort] == "status"
+          @issues = Issue.all.order('Status asc')
+        elsif params[:sort] == "assignee"
+        elsif params[:sort] == "created"
+          @issues = Issue.all.order('created_at desc')
+        elsif params[:sort] == "updated"
+          @issues = Issue.all.order('updated_at desc')
+        end
+          
+      end
 
       format.html
       format.json {render json: @issues, status: :ok, each_serializer: IssueIndexSerializer}
