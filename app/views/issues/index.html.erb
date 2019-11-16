@@ -1,97 +1,77 @@
 <p id="notice"><%= notice %></p>
 
-<style>
-.container {
-  position: relative;
-}
-
-.topright {
-  position: absolute;
-  top: 0px;
-  right: 16px;
-  font-size: 12px;
-}
-</style>
-
-<div class="container">
-  <div class="topright">
-
-  <% if user_signed_in? %>
-    <li>
-    <%= link_to('Logout', destroy_user_session_path, method: :delete) %>        
-    </li>
-  <% else %>
-    <li>
-    <%= link_to('Login', new_user_session_path) %>  
-    </li>
-  <% end %>
-  </div>
-</div>
 
 <!DOCTYPE html>
 
-<div class="header">
-  <div class="section-title">
-    <h1>Issues</h1>
-  </div>
-  <div class="page-actions">
-    <% if current_user %>
-      <%= link_to 'New Issue', new_issue_path %>
-      <% end %>
-      <%= link_to 'Logout', destroy_user_session_path, method: :delete %> 
-  </div>
-</div>
 
-<h2>Issues (<%= @issues.size %>)</h2>
-
-<p>
-  <% if request.query_parameters[:type] %>
-    <b>type:</b> "<%= request.query_parameters[:type] %>"
-  <% end %>
-  <% if request.query_parameters[:priority] %>
-      <b>priority:</b> "<%= request.query_parameters[:priority] %>"
-  <% end %>
-  <% if request.query_parameters[:status] %>
-      <b>status:</b> "<%= request.query_parameters[:status] %>"
-  <% end %>
-  <% if request.query_parameters[:assignee] %>
-      <b>assignee:</b> "<%= User.find(request.query_parameters[:assignee]).name %>"
-  <% end %>
-</p>
-
-<table>
-  <thead>
-    <tr>
-      <th scope="col">Title</th>
-      <th scope="col">T</th>
-      <th scope="col">P</th>
-      <th scope="col">Status</th>
-      <th scope="col">Votes</th>
-      <th scope="col">Assignee</th>
-      <th scope="col">Created</th>
-      <th scope="col">Updated</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @issues.each do |issue| %>
-      <tr>
-        <td><%= link_to issue.Title , issue %></td>
-        <td><%= link_to issue.Type , issues_url(type: issue.Type) %></td>
-        <td><%= link_to issue.Priority , issues_url(priority: issue.Priority) %></td>
-        <td><%= link_to issue.Status , issues_url(status: issue.Status) %></td>
-        <td><%= issue.Votes %></td>
-        <% if !issue.asignee.nil? %>
-        <td><%= link_to issue.asignee.name, issues_url(assignee: issue.asignee.id) %></td>
-        <% else %>
-        <td></td>
+<div class="p-5">
+  <div class="header">
+    <div class="section-title">
+      <h1>Issues</h1>
+    </div>
+    <div class="page-actions">
+      <% if current_user %>
+      <button type ="button" class="btn btn-outline-dark">
+        <%= link_to 'New Issue', new_issue_path %>
         <% end %>
-        <td><%= time_ago_in_words(issue.created_at) + " ago" %></td>
-        <td><%= time_ago_in_words(issue.updated_at) + " ago" %></td>
-        <td><%= link_to 'Show', issue %></td>
-        <td><%= link_to 'Edit', edit_issue_path(issue) %></td>
-        <td><%= link_to 'Destroy', issue, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+      </button>
+      <button type ="button" class="btn btn-outline-dark">
+        <%= link_to 'Logout', destroy_user_session_path, method: :delete %> 
+      </button>
+    </div>
+  </div>
+
+  <!--<h2>Issues (<%= @issues.size %>)</h2>-->
+
+  <p>
+    <% if request.query_parameters[:type] %>
+      <b>type:</b> "<%= request.query_parameters[:type] %>"
     <% end %>
-  </tbody>
-</table>
+    <% if request.query_parameters[:priority] %>
+        <b>priority:</b> "<%= request.query_parameters[:priority] %>"
+    <% end %>
+    <% if request.query_parameters[:status] %>
+        <b>status:</b> "<%= request.query_parameters[:status] %>"
+    <% end %>
+    <% if request.query_parameters[:assignee] %>
+        <b>assignee:</b> "<%= User.find(request.query_parameters[:assignee]).name %>"
+    <% end %>
+  </p>
+
+  <table class = "table table-hover">
+    <thead class = thead-dark>
+      <tr>
+        <th style="width: 45%" scope="col">Title</th>
+        <th scope="col">T</th>
+        <th scope="col">P</th>
+        <th scope="col">Status</th>
+        <th scope="col">Votes</th>
+        <th scope="col">Assignee</th>
+        <th scope="col">Created</th>
+        <th scope="col">Updated</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @issues.each do |issue| %>
+        <tr>
+          <td><%= link_to issue.Title , issue %></td>
+          <td><%= link_to issue.Type , issues_url(type: issue.Type) %></td>
+          <td><%= link_to issue.Priority , issues_url(priority: issue.Priority) %></td>
+          <td><%= link_to issue.Status , issues_url(status: issue.Status) %></td>
+          <td><%= issue.Votes %></td>
+          <% if !issue.asignee.nil? %>
+          <td><%= link_to issue.asignee.name, issues_url(assignee: issue.asignee.id) %></td>
+          <% else %>
+          <td></td>
+          <% end %>
+          <td><%= time_ago_in_words(issue.created_at) + " ago" %></td>
+          <td><%= time_ago_in_words(issue.updated_at) + " ago" %></td>
+          <td><%= link_to 'Show', issue %></td>
+          <td><%= link_to 'Edit', edit_issue_path(issue) %></td>
+          <td><%= link_to 'Destroy', issue, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
