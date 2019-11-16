@@ -5,7 +5,44 @@ class IssuesController < ApplicationController
   # GET /issues
   # GET /issues.json
   def index
-    @issues = Issue.all
+    respond_to do |format|
+      @issues = Issue.all
+      
+      if params.has_key?(:assignee)
+        if User.exists?(id: params[:assignee])
+          @issues = @issues.where(asignee_id: params[:assignee])
+        else
+          format.json {render json: {"error":"User with id="+params[:assignee]+" does not exist"}, status: :unprocessable_entity}
+        end
+      end
+      
+      if params.has_key?(:type)
+        @issues = @issues.where(Type: params[:type])
+      end
+      
+      if params.has_key?(:priority)
+        @issues = @issues.where(Priority: params[:priority])
+      end
+      
+      if params.has_key?(:status)
+        if params[:status] == "New&Open"
+          @issues = @issues.where(Status: ["Open","New"])
+        else
+        @issues = @issues.where(Status: params[:status])
+        end
+      end
+      
+      if params.has_key?(:watcher)
+        if User.exists?(id: params[:watcher])
+          @issues = Issue.joins(:watchers).where(watchers:{user_id: params[:watcher]})
+        else
+          format.json {render json: {"error":"User with id="+params[:watcher]+" does not exist"}, status: :unprocessable_entity}
+        end
+      end
+
+      format.html
+      format.json {render json: @issues, status: :ok, each_serializer: IssueIndexSerializer}
+    end
   end
 
   # GET /issues/1
