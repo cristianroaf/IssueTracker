@@ -202,7 +202,13 @@
           <% end %>
           <td><%= time_ago_in_words(issue.created_at) + " ago" %></td>
           <td><%= time_ago_in_words(issue.updated_at) + " ago" %></td>
-          <td><%= "watchers" %></td>
+            <td>
+            <% if !Watcher.exists?(:issue_id => issue.id, :user_id => current_user.id) %>
+                <%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/watch.png", height: 20, width: 30), watch_url(id: issue.id, view: "index"), method: :post %>
+            <%else %>
+                <%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/unwatch.png", height: 20, width: 30), watch_url(id: issue.id, view: "index"), method: :post %>
+            <% end %>
+            </td>
         </tr>
       <% end %>
     </tbody>
