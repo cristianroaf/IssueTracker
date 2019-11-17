@@ -50,10 +50,13 @@ class IssuesController < ApplicationController
         elsif params[:sort] == "status"
           @issues = @issues.order('Status asc')
         elsif params[:sort] == "assignee"
+          @issues = @issues.order('asignee_id asc')
         elsif params[:sort] == "created"
           @issues = @issues.order('created_at desc')
         elsif params[:sort] == "updated"
           @issues = @issues.order('updated_at desc')
+        elsif params[:sort] == "Title"
+          @issues = @issues.order('id desc')
         end
       end
 

@@ -65,7 +65,7 @@
   <table class = "issue-list">
     <thead>
       <tr>
-        <th style="width: 45%" scope="col">Title</th>
+        <th style="width: 45%" scope="col"><%= link_to  'Title', issues_url(sort: "Title") %></th>
         <th scope="col"><%= link_to  'T', issues_url(sort: "kind") %></th>
         <th scope="col"><%= link_to  'P', issues_url(sort: "priority") %></th>
         <th scope="col"><%= link_to  'Status', issues_url(sort: "status") %></th>
