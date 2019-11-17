@@ -42,27 +42,28 @@
       </ul>
     </div>
   </div>
-  
-  <div class="issues-total">
-      <h2 >Issues (<%= @issues.size %>)</h2>
-  </div>
-  
-  <p>
-    <% if request.query_parameters[:type] %>
-      <b>type: </b> "<%= request.query_parameters[:type] %>"
-    <% end %>
-    <% if request.query_parameters[:priority] %>
-        <b>priority: </b> "<%= request.query_parameters[:priority] %>"
-    <% end %>
-    <% if request.query_parameters[:status] %>
-        <b>status: </b> "<%= request.query_parameters[:status] %>"
-    <% end %>
-    <% if request.query_parameters[:assignee] %>
-        <b>assignee: </b> "<%= User.find(request.query_parameters[:assignee]).name %>"
-    <% end %>
-  </p>
+ 
+  <p></p>
+
+
+    <h6>Issues (<%= @issues.size %>)</h6>
+    <p>
+      <% if request.query_parameters[:type] %>
+        <b>type: </b> "<%= request.query_parameters[:type] %>"
+      <% end %>
+      <% if request.query_parameters[:priority] %>
+          <b>priority: </b> "<%= request.query_parameters[:priority] %>"
+      <% end %>
+      <% if request.query_parameters[:status] %>
+          <b>status: </b> "<%= request.query_parameters[:status] %>"
+      <% end %>
+      <% if request.query_parameters[:assignee] %>
+          <b>assignee: </b> "<%= User.find(request.query_parameters[:assignee]).name %>"
+      <% end %>
+    </p>
 
   <table class = "issue-list">
+
     <thead>
       <tr>
         <th style="width: 45%" scope="col">
@@ -163,15 +164,15 @@
             <td><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Task.png", height: 20, width: 20), issues_url(type: issue.Type) %></td>
           <% end %>
           <% if issue.Priority == "Blocker" %>
-            <td><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Blocker.png", height: 20, width: 20), issues_url(type: issue.Priority) %></td>
+            <td><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Blocker.png", height: 20, width: 20), issues_url(priority: issue.Priority) %></td>
           <% elsif issue.Priority == "Critical" %>
-            <td><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Critical.png", height: 20, width: 20), issues_url(type: issue.Priority) %></td>
+            <td><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Critical.png", height: 20, width: 20), issues_url(priority: issue.Priority) %></td>
           <% elsif issue.Priority == "Major" %>
-            <td><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Major.png", height: 20, width: 20), issues_url(type: issue.Priority) %></td>
+            <td><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Major.png", height: 20, width: 20), issues_url(priority: issue.Priority) %></td>
           <% elsif issue.Priority == "Minor" %>
-            <td><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Minor.png", height: 20, width: 20), issues_url(type: issue.Priority) %></td>
+            <td><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Minor.png", height: 20, width: 20), issues_url(priority: issue.Priority) %></td>
           <% elsif issue.Priority == "Trivial" %>
-            <td><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Trivial.png", height: 20, width: 20), issues_url(type: issue.Priority) %></td>
+            <td><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Trivial.png", height: 20, width: 20), issues_url(priority: issue.Priority) %></td>
           <% end %>
           <% if issue.Status == "New" %>
             <td><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/New.png"), issues_url(status: issue.Status) %></td>
