@@ -80,7 +80,7 @@
     <tbody>
       <% @issues.each do |issue| %>
         <tr>
-          <td><%= link_to issue.Title , issue, class:"btn-link" %></td>
+          <td><%= link_to "#" + issue.id.to_s + ": " + issue.Title , issue, class:"btn-link" %></td>
           <% if issue.Type == "Bug" %>
             <td><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Bug.png", height: 20, width: 20), issues_url(type: issue.Type) %></td>
           <% elsif issue.Type == "Enhancement" %>
