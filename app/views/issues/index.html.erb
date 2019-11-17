@@ -10,13 +10,13 @@
   </div>
   <div class="page-actions">
     <% if current_user %>
-      <%= link_to new_issue_path, class: 'create-button' do %>
-        <span class="create-button">Create issue</span>
-      <% end %>
-      <%= link_to destroy_user_session_path, class: 'create-button' do %>
-        <span class="create-button">Log out</span>
-      <% end %>
-    <% end %>
+      <span class="create-button">
+        <%= link_to 'New Issue', new_issue_path %>
+        <% end %>
+      </span>
+      <span class="create-button">
+        <%= link_to 'Logout', destroy_user_session_path, method: :delete %> 
+      </span>
   </div>
 </div>
   
