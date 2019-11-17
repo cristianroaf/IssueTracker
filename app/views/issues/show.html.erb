@@ -47,7 +47,9 @@
   <div class="header">
     <div class="section-title">
       <h2><%= @issue.Title %> </h2>
-      <br>
+      <div class="section-title2 px-3">
+        <h8> Issue # <%=@issue.id.to_s %> </h8>
+      </div>
     </div>
   </div>
 
@@ -55,6 +57,7 @@
     <div class="column col-sm-9">
       <div class="px-3">
         <p style="font-size: 90%">
+
           <strong> <%= User.find(@issue.user_id).name %> </strong> created an issue <%= time_ago_in_words(@issue.created_at) + " ago" %>
         </p>
         <p style="font-size: 100%">
