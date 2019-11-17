@@ -95,6 +95,44 @@
     </div>  
 
     <div class="sidebar col-sm-3" >
+
+    <div class="row pb-3" >
+
+      <div class="pr-1">
+        <button class="btn btn-primary">
+          Resolve
+        </button>
+      </div>
+
+      <div class="pl-2">
+
+         <div class="dropdown">
+          <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">
+            Workflow
+          </button>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="#">Link 1</a>
+            <a class="dropdown-item" href="#">Link 2</a>
+            <a class="dropdown-item" href="#">Link 3</a>
+          </div>
+        </div> 
+      </div>
+
+      <div class="pl-5">
+
+        <button type="button" class="btn btn-light">
+          Attach
+        </button> 
+      </div>
+
+      <div class="col-sm-2">
+        <button class="btn btn-light">
+          <%= link_to 'Edit', edit_issue_path(@issue) %>
+        </button>
+      </div>
+
+    </div>
+
       <div class="issue-attrs">
         <dl>
           <dt> Asignee </dt>
