@@ -91,33 +91,17 @@
             <td><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Task.png", height: 20, width: 20), issues_url(type: issue.Type) %></td>
           <% end %>
           <% if issue.Priority == "Blocker" %>
-            <td><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Blocker.png", height: 20, width: 20), issues_url(priority: issue.Priority) %></td>
+            <td><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Blocker.png", height: 20, width: 20), issues_url(type: issue.Priority) %></td>
           <% elsif issue.Priority == "Critical" %>
-            <td><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Critical.png", height: 20, width: 20), issues_url(priority: issue.Priority) %></td>
+            <td><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Critical.png", height: 20, width: 20), issues_url(type: issue.Priority) %></td>
           <% elsif issue.Priority == "Major" %>
-            <td><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Major.png", height: 20, width: 20), issues_url(priority: issue.Priority) %></td>
+            <td><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Major.png", height: 20, width: 20), issues_url(type: issue.Priority) %></td>
           <% elsif issue.Priority == "Minor" %>
-            <td><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Minor.png", height: 20, width: 20), issues_url(priority: issue.Priority) %></td>
+            <td><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Minor.png", height: 20, width: 20), issues_url(type: issue.Priority) %></td>
           <% elsif issue.Priority == "Trivial" %>
-            <td><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Trivial.png", height: 20, width: 20), issues_url(priority: issue.Priority) %></td>
+            <td><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Trivial.png", height: 20, width: 20), issues_url(type: issue.Priority) %></td>
           <% end %>
-          <% if issue.Status == "New" %>
-            <td><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/New.png"), issues_url(status: issue.Status) %></td>
-          <% elsif issue.Status == "Open" %>
-            <td><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/open.png", height: 23, width: 50), issues_url(status: issue.Status) %></td>
-          <% elsif issue.Status == "Duplicate" %>
-            <td><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/duplicate.png", height: 23, width: 80), issues_url(status: issue.Status) %></td>
-          <% elsif issue.Status == "Closed" %>
-            <td><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/closed.png", height: 23, width: 80), issues_url(status: issue.Status) %></td>
-          <% elsif issue.Status == "Invalid" %>
-            <td><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/invalid.png", height: 23, width: 80), issues_url(status: issue.Status) %></td>
-          <% elsif issue.Status == "On hold" %>
-            <td><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/onhold.png", height: 23, width: 80), issues_url(status: issue.Status) %></td>
-          <% elsif issue.Status == "Resolved" %>
-            <td><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/resolved.png", height: 23, width: 80), issues_url(status: issue.Status) %></td>
-          <% elsif issue.Status == "Wont fix" %>
-            <td><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/wontfix.png", height: 23, width: 80), issues_url(status: issue.Status) %></td>
-          <% end %>
+          <td><%= link_to issue.Status , issues_url(status: issue.Status), class:"btn-link" %></td>
           <td><%= issue.Votes %></td>
           <% if !issue.asignee.nil? %>
           <td><%= link_to issue.asignee.name, issues_url(assignee: issue.asignee.id) %></td>
