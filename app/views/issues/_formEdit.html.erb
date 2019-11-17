@@ -1,0 +1,76 @@
+<head>
+  <script type="text/javascript" src="http://js.nicedit.com/nicEdit-latest.js"></script> <script type="text/javascript">
+//<![CDATA[
+        bkLib.onDomLoaded(function() { nicEditors.allTextAreas() });
+  //]]>
+  </script>
+</head>
+
+<div class="px-5">
+
+<h3>Issues</h3>
+<h6>Edit Issue</h6><br>
+
+<div class="px-5">
+
+    <%= form_with(model: issue, local: true) do |form| %>
+      <% if issue.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(issue.errors.count, "error") %> prohibited this issue from being saved:</h2>
+
+          <ul>
+            <% issue.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <%= form.label :Title %>
+      <div class="form-row">
+        <div class="field">
+          <%= form.text_field :Title %>
+        </div>
+      </div>
+
+      <%= form.label :Description %>
+      <div class="field">
+        <textarea id="Description" style="width: 70%">
+        </textarea>
+
+      </div>
+
+          
+      <%= form.label :Type %>
+      <div class="form-group">
+        <div class="field">
+          <%= form.select :Type, options_for_select(Issue.type, issue[:Type]), :class => 'genForm_dropBox' %>
+        </div>
+      </div>
+
+      <%= form.label :Priority %>
+      <div class="field">
+        <%= form.select :Priority, options_for_select(Issue.priority, issue[:Priority]), :class => 'genForm_dropBox' %>
+      </div>
+
+      <div class="field" style="display:none;">
+      <%= form.text_field :user_id, required: true, class: 'form-control', value:current_user.id  %>
+      <%= form.text_field :Status, required: true, class: 'form-control', value:"New" %>
+      <%= form.text_field :Watchers, required: true, class: 'form-control', value:1 %>
+      </div>
+      
+      <div class="form-group">
+        <label for="FormControlFile1">Attach</label>
+        <input type="file" class="form-control-file" id="FormControlFile1">
+      </div>
+
+      <div style="float:right;"">
+        <%= form.submit class:"btn btn-outline-dark"%>
+      <button type="button" class="btn btn-outline-dark">
+        <%= link_to 'Back', issues_path %>
+      </button>
+      </div>
+    <% end %>
+
+  </div>
+</div>

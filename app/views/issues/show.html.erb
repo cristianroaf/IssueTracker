@@ -1,69 +1,145 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Title:</strong>
-  <%= @issue.Title %>
-</p>
+<style type="text/css">
+  .issue-attrs {
+    border: 1px solid 
+    #DFE1E6;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 10px;
+    border-spacing: 0;
+    width: 350px;
+    margin: 0px;
+    display: block;
+  }
 
-<p>
-  <strong>Description:</strong>
-  <%= @issue.Description %>
-</p>
+   .sidebar {
+    width: 300px;
+    display: table-cell;
+    vertical-align: top;
+    }
 
-<p>
-  <strong>Type:</strong>
-  <%= @issue.Type %>
-</p>
+  .dl {
+    margin: 8px;
+    padding-left: 120px;
+  }
 
-<p>
-  <strong>Priority:</strong>
-  <%= @issue.Priority %>
-</p>
+  .issue-attrs dt{
+    float: left;
+    margin-left: 10px;
+    text-align: right;
+    width: 120px;
+    display: block;
+  }
 
-<p>
-  <strong>Status:</strong>
-  <%= @issue.Status %>
-</p>
+  .issue-attrs dd{
+    padding-left: 21px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 
-<p>
-  <strong>User:</strong>
-  <%= @issue.user_id %>
-</p>
 
-<p>
-  <strong>Asignee:</strong>
-  <%= @issue.asignee_id %>
-</p>
+</style>
 
-<p>
-  <strong>Votes:</strong>
-  <%= @issue.Votes %>
-</p>
+<div class="p-5">
 
-<p>
-  <strong>Watchers:</strong>
-  <%= @issue.Watchers %>
-</p>
+  <div class="header">
+    <div class="section-title">
+      <h2><%= @issue.Title %> </h2>
+      <br>
+    </div>
+  </div>
 
-<p>
-  <strong>At name:</strong>
-  <%= @issue.at_name %>
-</p>
+  <div class="row">
+    <div class="column col-sm-9">
+      <div class="px-3">
+        <p style="font-size: 90%">
+          <strong> <%= User.find(@issue.user_id).name %> </strong> created an issue <%= time_ago_in_words(@issue.created_at) + " ago" %>
+        </p>
+        <p style="font-size: 100%">
+          <% if @issue.Description.nil? %>
+            <i>No description provided.</i>
+          <% else %>
+            <%= @issue.Description %>
+          <% end %>
+        </p>
+      </div>
+      <hr align="left" width="100%">
 
-<p>
-  <strong>At format:</strong>
-  <%= @issue.at_format %>
-</p>
+  <p>
+    <strong> <h6>Comments</h6> </strong>
+  </p>
 
-<p>
-  <strong>At size:</strong>
-  <%= @issue.at_size %>
-</p>
 
-<p>
-  <strong>At updated at:</strong>
-  <%= @issue.at_updated_at %>
-</p>
+  <div style="display:none;">
+  <p>
+    <strong>At name:</strong>
+    <%= @issue.at_name %>
+  </p>
+  <p>
+    <strong>At format:</strong>
+    <%= @issue.at_format %>
+  </p>
+  <p>
+    <strong>At size:</strong>
+    <%= @issue.at_size %>
+  </p>
+  <p>
+    <strong>At updated at:</strong>
+    <%= @issue.at_updated_at %>
+  </p>
+  </div>  
 
-<%= link_to 'Edit', edit_issue_path(@issue) %> |
-<%= link_to 'Back', issues_path %>
+
+    </div>  
+
+    <div class="sidebar col-sm-3" >
+      <div class="issue-attrs">
+        <dl>
+          <dt> Asignee </dt>
+          <dd>-</dd>
+        </dl>
+        <dl>
+          <dt> Type </dt>
+          <dd> <%= @issue.Type %></dd>
+        </dl>
+        <dl>
+          <dt>Type</dt>
+          <dd> <%= @issue.Type %></dd>
+        </dl>
+        <dl>
+          <dt>Priority</dt>
+          <dd> <%= @issue.Priority %></dd>
+        </dl>
+        <dl>
+          <dt>Status</dt>
+          <dd> <%= @issue.Status %></dd>
+        </dl>
+        <dl>
+          <dt>Votes</dt>
+            <% if @issue.Votes.nil? %>
+              <dd> 0 </dd>
+            <% else %>
+             <dd><%= @issue.Votes %></dd>
+            <% end %>
+        </dl>
+        <dl>
+          <dt>Watchers</dt>
+            <% if @issue.Watchers.nil? %>
+              <dd> 0 </dd>
+            <% else %>
+             <dd><%= @issue.Watchers %></dd>
+            <% end %>
+        </dl>
+      </div>
+    </div>
+  </div>
+
+  
+
+  <%= link_to 'Edit', edit_issue_path(@issue) %> |
+  <%= link_to 'Back', issues_path %>
+</div>
+
+
