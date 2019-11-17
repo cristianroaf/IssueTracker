@@ -136,42 +136,72 @@
 
     </div>
 
-      <div class="issue-attrs">
+<div class="issue-attrs">
         <dl>
           <dt> Asignee </dt>
-          <dd>-</dd>
+          <% if !@issue.asignee.nil? %>
+            <dd><%= link_to @issue.asignee.name, issues_url(assignee: @issue.asignee.id) %></dd>
+          <% else %>
+            <dd>-</dd>
+          <% end %>
         </dl>
         <dl>
           <dt> Type </dt>
-          <dd> <%= @issue.Type %></dd>
-        </dl>
-        <dl>
-          <dt>Type</dt>
-          <dd> <%= @issue.Type %></dd>
+          <% if @issue.Type == "Bug" %>
+            <dd><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Bug.png", height: 20, width: 20) + " " + @issue.Type , issues_url(type: @issue.Type) %></dd>
+          <% elsif @issue.Type == "Enhancement" %>
+            <dd><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Enhancement.png", height: 20, width: 20) + " " + @issue.Type , issues_url(type: @issue.Type) %></dd>
+          <% elsif @issue.Type == "Proposal" %>
+            <dd><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Proposal.png", height: 20, width: 20) + " " + @issue.Type , issues_url(type: @issue.Type) %></dd>
+          <% elsif @issue.Type == "Task" %>
+            <dd><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Task.png", height: 20, width: 20) + " " + @issue.Type , issues_url(type: @issue.Type) %></dd>
+          <% end %>
         </dl>
         <dl>
           <dt>Priority</dt>
-          <dd> <%= @issue.Priority %></dd>
+          <% if @issue.Priority == "Blocker" %>
+            <dd><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Blocker.png", height: 20, width: 20) + " " + @issue.Priority , issues_url(type: @issue.Priority) %></dd>
+          <% elsif @issue.Priority == "Critical" %>
+            <dd><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Critical.png", height: 20, width: 20) + " " + @issue.Priority , issues_url(type: @issue.Priority) %></dd>
+          <% elsif @issue.Priority == "Major" %>
+            <dd><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Major.png", height: 20, width: 20) + " " + @issue.Priority , issues_url(type: @issue.Priority) %></dd>
+          <% elsif @issue.Priority == "Minor" %>
+            <dd><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Minor.png", height: 20, width: 20) + " " + @issue.Priority , issues_url(type: @issue.Priority) %></dd>
+          <% elsif @issue.Priority == "Trivial" %>
+            <dd><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Trivial.png", height: 20, width: 20) + " " + @issue.Priority , issues_url(type: @issue.Priority) %></dd>
+          <% end %>
         </dl>
         <dl>
           <dt>Status</dt>
-          <dd> <%= @issue.Status %></dd>
+          <dd><%= link_to @issue.Status , issues_url(type: @issue.Status) %></dd>
         </dl>
         <dl>
           <dt>Votes</dt>
-            <% if @issue.Votes.nil? %>
-              <dd> 0 </dd>
-            <% else %>
-             <dd><%= @issue.Votes %></dd>
-            <% end %>
+            <dd>
+              <% if @issue.Votes.nil? %>
+                <%= "0 " %>
+              <% else %>
+                <%= @issue.Votes %>
+              <% end %>
+              <% if !Vote.exists?(:issue_id => @issue.id, :user_id => current_user.id) %>
+                  <%= link_to 'Vote for this issue', vote_url(id: @issue.id), method: :post, class:"vote" %>
+              <% else %>
+                  <%= link_to 'Remove vote', vote_url(id: @issue.id), method: :post, class:"vote" %>
+              <% end %>
+            </dd>
         </dl>
         <dl>
           <dt>Watchers</dt>
-            <% if @issue.Watchers.nil? %>
-              <dd> 0 </dd>
-            <% else %>
-             <dd><%= @issue.Watchers %></dd>
-            <% end %>
+              <% if @issue.Watchers.nil? %>
+                <%= "0 " %>
+              <% else %>
+                <%= @issue.Watchers %>
+              <% end %>
+              <% if !Watcher.exists?(:issue_id => @issue.id, :user_id => current_user.id) %>
+                  <%= link_to 'Watch this issue', watch_url(id: @issue.id, view: "issue"), method: :post, class:"vote" %>
+              <% else %>
+                  <%= link_to 'Remove vote', watch_url(id: @issue.id, view: "issue"), method: :post, class:"vote" %>
+              <% end %>
         </dl>
       </div>
     </div>
