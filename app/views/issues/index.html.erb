@@ -65,14 +65,86 @@
   <table class = "issue-list">
     <thead>
       <tr>
-        <th style="width: 45%" scope="col"><%= link_to  'Title', issues_url(sort: "Title") %></th>
-        <th scope="col"><%= link_to  'T', issues_url(sort: "kind") %></th>
-        <th scope="col"><%= link_to  'P', issues_url(sort: "priority") %></th>
-        <th scope="col"><%= link_to  'Status', issues_url(sort: "status") %></th>
-        <th scope="col"><%= link_to  'Votes', issues_url(sort: "votes") %></th>
-        <th scope="col"><%= link_to  'Assignee', issues_url(sort: "assignee") %></th>
-        <th scope="col"><%= link_to  'Created', issues_url(sort: "created") %></th>
-        <th scope="col"><%= link_to  'Updated', issues_url(sort: "updated") %></th>
+        <th style="width: 45%" scope="col">
+            <% if request.query_parameters[:sort] %>
+              <% if request.query_parameters[:sort] == 'Title' %>
+                <%= link_to  'Title', issues_url(sort: '-Title') %>
+              <% else %>
+                <%= link_to  'Title', issues_url(sort: 'Title') %>
+              <% end %>
+            <% else %>
+              <%= link_to  'Title', issues_url(sort: "Title") %>
+            <% end %></th>
+          <th scope="col">
+            <% if request.query_parameters[:sort] %>
+              <% if request.query_parameters[:sort] == 'kind' %>
+                <%= link_to  'T', issues_url(sort: '-kind') %>
+              <% else %>
+                <%= link_to  'T', issues_url(sort: 'kind') %>
+              <% end %>
+            <% else %>
+              <%= link_to  'T', issues_url(sort: "kind") %>
+            <% end %></th>
+          <th scope="col">
+            <% if request.query_parameters[:sort] %>
+              <% if request.query_parameters[:sort] == 'priority' %>
+                <%= link_to  'P', issues_url(sort: '-priority') %>
+              <% else %>
+                <%= link_to  'P', issues_url(sort: 'priority') %>
+              <% end %>
+            <% else %>
+              <%= link_to  'P', issues_url(sort: "priority") %>
+            <% end %></th>
+          <th scope="col">
+            <% if request.query_parameters[:sort] %>
+              <% if request.query_parameters[:sort] == 'status' %>
+                <%= link_to  'Status', issues_url(sort: '-status') %>
+              <% else %>
+                <%= link_to  'Status', issues_url(sort: 'status') %>
+              <% end %>
+            <% else %>
+              <%= link_to  'Status', issues_url(sort: "status") %>
+            <% end %></th>
+          <th scope="col">
+            <% if request.query_parameters[:sort] %>
+              <% if request.query_parameters[:sort] == 'votes' %>
+                <%= link_to  'Votes', issues_url(sort: '-votes') %>
+              <% else %>
+                <%= link_to  'Votes', issues_url(sort: 'votes') %>
+              <% end %>
+            <% else %>
+              <%= link_to  'Votes', issues_url(sort: "votes") %>
+            <% end %></th>
+          <th scope="col">
+            <% if request.query_parameters[:sort] %>
+              <% if request.query_parameters[:sort] == 'assignee' %>
+                <%= link_to  'Assignee', issues_url(sort: '-assignee') %>
+              <% else %>
+                <%= link_to  'Assignee', issues_url(sort: 'assignee') %>
+              <% end %>
+            <% else %>
+              <%= link_to  'Assignee', issues_url(sort: "assignee") %>
+            <% end %></th>
+          <th scope="col">
+            <% if request.query_parameters[:sort] %>
+              <% if request.query_parameters[:sort] == 'created' %>
+                <%= link_to  'Created', issues_url(sort: '-created') %>
+              <% else %>
+                <%= link_to  'Created', issues_url(sort: 'created') %>
+              <% end %>
+            <% else %>
+              <%= link_to  'Created', issues_url(sort: "created") %>
+            <% end %></th>
+          <th scope="col">
+            <% if request.query_parameters[:sort] %>
+              <% if request.query_parameters[:sort] == 'updated' %>
+                <%= link_to  'Updated', issues_url(sort: '-updated') %>
+              <% else %>
+                <%= link_to  'Updated', issues_url(sort: 'updated') %>
+              <% end %>
+            <% else %>
+              <%= link_to  'Updated', issues_url(sort: "updated") %>
+            <% end %></th>
         <th colspan="3"></th>
       </tr>
     </thead>

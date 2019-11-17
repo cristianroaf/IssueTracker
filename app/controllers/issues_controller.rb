@@ -46,16 +46,32 @@ class IssuesController < ApplicationController
         elsif params[:sort] == "priority"
           @issues = @issues.order('Priority asc')
         elsif params[:sort] == "kind"
-          @issues = @issues.order('Type desc')
+          @issues = @issues.order('Type asc')
         elsif params[:sort] == "status"
           @issues = @issues.order('Status asc')
         elsif params[:sort] == "assignee"
           @issues = @issues.order('asignee_id asc')
         elsif params[:sort] == "created"
-          @issues = @issues.order('created_at desc')
+          @issues = @issues.order('created_at asc')
         elsif params[:sort] == "updated"
-          @issues = @issues.order('updated_at desc')
+          @issues = @issues.order('updated_at asc')
         elsif params[:sort] == "Title"
+          @issues = @issues.order('id asc')
+        elsif params[:sort] == "-votes"
+          @issues = @issues.order('Votes desc')
+        elsif params[:sort] == "-priority"
+          @issues = @issues.order('Priority desc')
+        elsif params[:sort] == "-kind"
+          @issues = @issues.order('Type desc')
+        elsif params[:sort] == "-status"
+          @issues = @issues.order('Status desc')
+        elsif params[:sort] == "-assignee"
+          @issues = @issues.order('asignee_id desc')
+        elsif params[:sort] == "-created"
+          @issues = @issues.order('created_at desc')
+        elsif params[:sort] == "-updated"
+          @issues = @issues.order('updated_at desc')
+        elsif params[:sort] == "-Title"
           @issues = @issues.order('id desc')
         end
       end
