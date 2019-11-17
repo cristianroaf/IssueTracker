@@ -99,14 +99,24 @@ class IssuesController < ApplicationController
   # POST /issues.json
   def create
     @issue = Issue.new(issue_params)
-
+    @issue = Issue.new(issue_params)
+    @issue.user_id = current_user.id
     respond_to do |format|
-      if @issue.save
-        format.html { redirect_to @issue, notice: 'Issue was successfully created.' }
-        format.json { render :show, status: :created, location: @issue }
+      if (issue_params.has_key?(:assignee_id) && issue_params[:assignee_id] != "" && !User.exists?(id: issue_params[:assignee_id]))
+          format.json {render json: {"error":"User with id="+issue_params[:assignee_id]+" does not exist"}, status: :unprocessable_entity}
       else
-        format.html { render :new }
-        format.json { render json: @issue.errors, status: :unprocessable_entity }
+        if @issue.save
+          @watcher = Watcher.new
+          @watcher.user_id = current_user.id
+          @watcher.issue_id = @issue.id
+          @watcher.save
+          @issue.increment!("Watchers")
+          format.html { redirect_to @issue }
+          format.json { render json: @issue, status: :created, serializer: IssueSerializer }
+        else
+          format.html { render :new }
+          format.json { render json: @issue.errors, status: :unprocessable_entity }
+        end
       end
     end
   end
@@ -124,7 +134,17 @@ class IssuesController < ApplicationController
       end
     end
   end
-
+  
+  def update_status
+    respond_to do |format|
+      @issue_to_update = Issue.find(params[:id])
+      @issue_to_update.update_attribute("Status", params[:status])
+      
+      format.html { redirect_to @issue_to_update }
+      format.json { render json: @issue_to_update, status: :ok }
+    end
+  end
+  
   # DELETE /issues/1
   # DELETE /issues/1.json
   def destroy
