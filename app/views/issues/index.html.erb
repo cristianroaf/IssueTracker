@@ -190,7 +190,11 @@
           <% elsif issue.Status == "Wont fix" %>
             <td><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/wontfix.png", height: 23, width: 80), issues_url(status: issue.Status) %></td>
           <% end %>
-          <td><%= issue.Votes %></td>
+          <% if issue.Votes.nil? || issue.Votes == 0 %>
+            <td></td>
+          <% else %>
+            <td><%= issue.Votes %></td>
+          <% end %>
           <% if !issue.asignee.nil? %>
           <td><%= link_to issue.asignee.name, issues_url(assignee: issue.asignee.id) %></td>
           <% else %>

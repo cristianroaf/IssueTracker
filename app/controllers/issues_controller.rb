@@ -135,6 +135,49 @@ class IssuesController < ApplicationController
     end
   end
 
+
+  def vote
+    respond_to do |format|
+      @issue_to_vote = Issue.find(params[:id])
+      if !Vote.exists?(:issue_id => @issue_to_vote.id, :user_id => current_user.id)
+        @vote = Vote.new
+        @vote.user_id = current_user.id
+        @vote.issue_id = @issue_to_vote.id
+        @vote.save
+        @issue_to_vote.increment!("Votes")
+      else
+        @vote = Vote.where(issue_id: params[:id], user_id: current_user.id).take
+        @vote.destroy
+        @issue_to_vote.decrement!("Votes")
+      end
+      format.html { redirect_to @issue_to_vote }
+      format.json { render json: @issue_to_vote, status: :ok }
+    end
+  end
+  
+  def watch
+    respond_to do |format|
+      @issue_to_watch = Issue.find(params[:id])
+      if !Watcher.exists?(:issue_id => @issue_to_watch.id, :user_id => current_user.id)
+        @watcher = Watcher.new
+        @watcher.user_id = current_user.id
+        @watcher.issue_id = @issue_to_watch.id
+        @watcher.save
+        @issue_to_watch.increment!("Watchers")
+      else
+        @watcher = Watcher.where(issue_id: params[:id], user_id: current_user.id).take
+        @watcher.destroy
+        @issue_to_watch.decrement!("Watchers")
+      end
+      if params[:view] == "index"
+        format.html { redirect_to issues_url}
+      else
+        format.html { redirect_to @issue_to_watch}
+      end
+      format.json { render json: @issue_to_watch, status: :ok }
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_issue

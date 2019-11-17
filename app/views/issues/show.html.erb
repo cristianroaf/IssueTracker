@@ -183,15 +183,16 @@
               <% else %>
                 <%= @issue.Votes %>
               <% end %>
-              <% if !Vote.exists?(:issue_id => @issue.id, :user_id => current_user.id) %>
-                  <%= link_to 'Vote for this issue', vote_url(id: @issue.id), method: :post, class:"vote" %>
-              <% else %>
-                  <%= link_to 'Remove vote', vote_url(id: @issue.id), method: :post, class:"vote" %>
-              <% end %>
+                  <% if !Vote.exists?(:issue_id => @issue.id, :user_id => current_user.id) %>
+                  <%= link_to 'Vote for this issue', vote_path(id: @issue.id), method: :post, class:"vote" %>
+                  <% else %>
+                  <%= link_to 'Remove vote', vote_path(id: @issue.id), method: :post, class:"vote" %>
+                  <% end %>
             </dd>
         </dl>
         <dl>
           <dt>Watchers</dt>
+            <dd>
               <% if @issue.Watchers.nil? %>
                 <%= "0 " %>
               <% else %>
@@ -200,8 +201,9 @@
               <% if !Watcher.exists?(:issue_id => @issue.id, :user_id => current_user.id) %>
                   <%= link_to 'Watch this issue', watch_url(id: @issue.id, view: "issue"), method: :post, class:"vote" %>
               <% else %>
-                  <%= link_to 'Remove vote', watch_url(id: @issue.id, view: "issue"), method: :post, class:"vote" %>
+                  <%= link_to 'Stop watching', watch_url(id: @issue.id, view: "issue"), method: :post, class:"vote" %>
               <% end %>
+            </dd>
         </dl>
       </div>
     </div>
