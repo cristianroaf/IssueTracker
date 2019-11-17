@@ -42,20 +42,19 @@ class IssuesController < ApplicationController
       
       if params.has_key?(:sort)
         if params[:sort] == "votes"
-          @issues = Issue.all.order('Votes asc')
+          @issues = @issues.order('Votes asc')
         elsif params[:sort] == "priority"
-          @issues = Issue.all.order('Priority asc')
+          @issues = @issues.order('Priority asc')
         elsif params[:sort] == "kind"
-          @issues = Issue.all.order('Type desc')
+          @issues = @issues.order('Type desc')
         elsif params[:sort] == "status"
-          @issues = Issue.all.order('Status asc')
+          @issues = @issues.order('Status asc')
         elsif params[:sort] == "assignee"
         elsif params[:sort] == "created"
-          @issues = Issue.all.order('created_at desc')
+          @issues = @issues.order('created_at desc')
         elsif params[:sort] == "updated"
-          @issues = Issue.all.order('updated_at desc')
+          @issues = @issues.order('updated_at desc')
         end
-          
       end
 
       format.html
