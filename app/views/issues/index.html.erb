@@ -3,6 +3,12 @@
 
 <!DOCTYPE html>
 
+<style>
+  .create-button:hover{
+    
+  }
+  
+</style>
 
 <div class="header">
   <div class="section-title">
@@ -10,13 +16,9 @@
   </div>
   <div class="page-actions">
     <% if current_user %>
-      <span class="create-button">
-        <%= link_to 'New Issue', new_issue_path %>
-        <% end %>
-      </span>
-      <span class="create-button">
-        <%= link_to 'Logout', destroy_user_session_path, method: :delete %> 
-      </span>
+      <%= link_to "<button class='btn btn-light'>Create Issue</button>".html_safe,  new_issue_path %>
+      <% end %>
+      <%= link_to "<button class='btn btn-light'>Logout</button>".html_safe, destroy_user_session_path, method: :delete %>
   </div>
 </div>
   
