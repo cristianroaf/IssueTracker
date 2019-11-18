@@ -68,7 +68,25 @@ a, a:visited, a:hover, a:active {
     <div class="section-title">
       <h2><%= @issue.Title %> </h2>
       <div class="section-title2 px-3">
-        <h8> Issue # <%=@issue.id.to_s %> </h8>
+        <h8> Issue # <%= @issue.id.to_s %>
+          <% if @issue.Status == "New" %>
+            <%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/New.png"), issues_url(status: @issue.Status) %>
+            <% elsif @issue.Status == "Open" %>
+            <%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/open.png", height: 23, width: 50), issues_url(status: @issue.Status) %>
+            <% elsif @issue.Status == "Duplicate" %>
+            <%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/duplicate.png", height: 23, width: 80), issues_url(status: @issue.Status) %>
+            <% elsif @issue.Status == "Closed" %>
+            <%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/closed.png", height: 23, width: 80), issues_url(status: @issue.Status) %>
+            <% elsif @issue.Status == "Invalid" %>
+            <%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/invalid.png", height: 23, width: 80), issues_url(status: @issue.Status) %>
+            <% elsif @issue.Status == "On hold" %>
+            <%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/onhold.png", height: 23, width: 80), issues_url(status: @issue.Status) %>
+            <% elsif @issue.Status == "Resolved" %>
+            <%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/resolved.png", height: 23, width: 80), issues_url(status: @issue.Status) %>
+            <% elsif @issue.Status == "Won't fix" %>
+            <%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/wontfix.png", height: 23, width: 80), issues_url(status: @issue.Status) %>
+          <% end %>
+        </h8>
       </div>
     </div>
   </div>
@@ -92,27 +110,6 @@ a, a:visited, a:hover, a:active {
   <p>
     <strong> <h6>Comments</h6> </strong>
   </p>
-
-
-  <div style="display:none;">
-  <p>
-    <strong>At name:</strong>
-    <%= @issue.at_name %>
-  </p>
-  <p>
-    <strong>At format:</strong>
-    <%= @issue.at_format %>
-  </p>
-  <p>
-    <strong>At size:</strong>
-    <%= @issue.at_size %>
-  </p>
-  <p>
-    <strong>At updated at:</strong>
-    <%= @issue.at_updated_at %>
-  </p>
-  </div>  
-
 
   </div>  
     <% if current_user %>
@@ -139,10 +136,7 @@ a, a:visited, a:hover, a:active {
           </div>
       </div> 
       <div class="pl-5">
-
-        <button type="button" class="btn btn-light">
-          Attach
-        </button> 
+        <button type="button" class="btn btn-light"> Attach </button> 
       </div>
 
       <div class="col-sm-2">
@@ -153,11 +147,7 @@ a, a:visited, a:hover, a:active {
     <% end %>
     </div>
     
-
-
-
-
-<div class="issue-attrs">
+  <div class="issue-attrs">
         <dl>
           <dt> Asignee </dt>
           <% if !@issue.asignee.nil? %>
