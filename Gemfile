@@ -13,6 +13,7 @@ gem 'omniauth-google-oauth2'
 gem 'bootstrap', '~> 4.3.1'
 gem 'jquery-rails'
 gem "aws-sdk-s3", require: false
+gem "paperclip", "~> 5.0.0.beta1"
 
 group :development, :test do
   gem 'sqlite3', '1.4.1'

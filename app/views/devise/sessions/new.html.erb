@@ -71,11 +71,33 @@
     
 </style>
   <body>
+
       <div class="container">
           <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-           <h1 class="titulo" >Login</h1>
-            <p style="font-weight: bold;">Fill the form to login</p>
+           <h1 class="titulo" >ASW Issue Tracker</h1>
+            <p style="font-weight: bold;">Welcome to the ASW 2019-Q2 Issue Tracker</p>
             <hr>
+            <div class="message">
+                <b>This project was made by:</b>
+                <li><a href="https://github.com/cristianroaf/"><img width=50 height=50 src="https://anzieves.sirv.com/Images/Iconos/github.png"></a>   Cristian Roa Fortes</li>
+                <li><a href="https://github.com/MiguelSalamero"><img width=50 height=50 src="https://anzieves.sirv.com/Images/Iconos/github.png"></a>   Miguel Salamero Muñoz</li>
+                <li><a href="https://github.com/Marc-Obiols"><img width=50 height=50 src="https://anzieves.sirv.com/Images/Iconos/github.png"></a>   Marc Obiols Rubio</a></li>
+                <li><a href="https://github.com/TrajanoCaligula"><img width=50 height=50 src="https://anzieves.sirv.com/Images/Iconos/github.png"></a>   Jaume Malgosa Broto</a></li>
+            </div>
+            <hr>
+            <div>
+              <b>To proceed, please sign in using Google:</b>
+              <p></p>
+              <span>
+              <%- if devise_mapping.omniauthable? %>
+              <%- resource_class.omniauth_providers.each do |provider| %>
+              <%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/sign_in.png"), omniauth_authorize_path(resource_name, provider) %><br />
+              <% end %>
+              <% end %>
+              </span>
+            </div>
+            <hr>
+            <b>ESTO DE AQUI ABAJO HAY QUE QUITARLO PERO AÚN HAY QUE HACER PRUEBAS</b>
             <div class="field">
               <label for="user"><b>Email</b></label>
               <%= f.text_field :email, autofocus: true, autocomplete: "email" %>
@@ -99,6 +121,12 @@
           <% end %>
       </div>
       <div class="container">
-          <%= render "devise/shared/links" %>
+          <%- if devise_mapping.omniauthable? %>
+          <%- resource_class.omniauth_providers.each do |provider| %>
+          <%= link_to "Sign in with #{OmniAuth::Utils.camelize(provider)}", omniauth_authorize_path(resource_name, provider) %><br />
+          <% end %>
+          <% end %>
       </div>
+      
+
 </body>
