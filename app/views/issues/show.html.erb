@@ -42,7 +42,24 @@
 a, a:visited, a:hover, a:active {
   color: inherit;
 }
+.dropdown2 {
+  position: relative;
+  display: inline-block;
+}
 
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  padding: 12px 16px;
+  z-index: 1;
+}
+
+.dropdown2:hover .dropdown-content {
+  display: block;
+}
 </style>
 
 <div class="p-5">
@@ -103,27 +120,25 @@ a, a:visited, a:hover, a:active {
     <div class="sidebar col-sm-3" >
     <div class="row pb-3" >
       <div class="pr-1">
-              <% if @issue.Status == "Open" || @issue.Status == "New" %>
-                <a class="btn btn-primary" style="color: white" <%= link_to 'Resolve', update_status_url(id: @issue.id, status: "Resolved"), method: :put %> </a>
-              <% else %>
-                <a class="btn btn-primary" style="color: white" <%= link_to 'Open', update_status_url(id: @issue.id, status: "Open"), method: :put, class:'open'%> </a>
+        <% if @issue.Status == "Open" || @issue.Status == "New" %>
+          <a class="btn btn-primary" style="color: white" <%= link_to 'Resolve', update_status_url(id: @issue.id, status: "Resolved"), method: :put %> </a>
+        <% else %>
+          <a class="btn btn-primary" style="color: white" <%= link_to 'Open', update_status_url(id: @issue.id, status: "Open"), method: :put, class:'open'%> </a>
+        <% end %>
+      </div>
+      
+       <div>
+          <div class="dropdown2">
+            <button type="button" class="btn btn-secondary dropdown-toggle">Workflow</button>
+            <div class="dropdown-content">
+            <% Issue.status.each do |status| %>
+              <% if status != @issue.Status %>
+                <li><a <%= content_tag(:li, link_to(status, update_status_url(id: @issue.id, status: status), method: :put)) %> </li></a>
               <% end %>
-      </div>
-
-      <div class="pl-2">
-         <div class="dropdown">
-
-          <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">
-            Workflow
-          </button>
-          <div class="dropdown-menu">
-            <a class="dropdown-item" href="#">Link 1</a>
-            <a class="dropdown-item" href="#">Link 2</a>
-            <a class="dropdown-item" href="#">Link 3</a>
+            <% end %>
+            </div>
           </div>
-        </div> 
-      </div>
-
+      </div> 
       <div class="pl-5">
 
         <button type="button" class="btn btn-light">
@@ -167,20 +182,20 @@ a, a:visited, a:hover, a:active {
         <dl>
           <dt>Priority</dt>
           <% if @issue.Priority == "Blocker" %>
-            <dd><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Blocker.png", height: 20, width: 20) + " " + @issue.Priority , issues_url(type: @issue.Priority) %></dd>
+            <dd><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Blocker.png", height: 20, width: 20) + " " + @issue.Priority , issues_url(priority: @issue.Priority) %></dd>
           <% elsif @issue.Priority == "Critical" %>
-            <dd><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Critical.png", height: 20, width: 20) + " " + @issue.Priority , issues_url(type: @issue.Priority) %></dd>
+            <dd><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Critical.png", height: 20, width: 20) + " " + @issue.Priority , issues_url(priority: @issue.Priority) %></dd>
           <% elsif @issue.Priority == "Major" %>
-            <dd><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Major.png", height: 20, width: 20) + " " + @issue.Priority , issues_url(type: @issue.Priority) %></dd>
+            <dd><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Major.png", height: 20, width: 20) + " " + @issue.Priority , issues_url(priority: @issue.Priority) %></dd>
           <% elsif @issue.Priority == "Minor" %>
-            <dd><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Minor.png", height: 20, width: 20) + " " + @issue.Priority , issues_url(type: @issue.Priority) %></dd>
+            <dd><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Minor.png", height: 20, width: 20) + " " + @issue.Priority , issues_url(priority: @issue.Priority) %></dd>
           <% elsif @issue.Priority == "Trivial" %>
-            <dd><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Trivial.png", height: 20, width: 20) + " " + @issue.Priority , issues_url(type: @issue.Priority) %></dd>
+            <dd><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Trivial.png", height: 20, width: 20) + " " + @issue.Priority , issues_url(priority: @issue.Priority) %></dd>
           <% end %>
         </dl>
         <dl>
           <dt>Status</dt>
-          <dd><%= link_to @issue.Status , issues_url(type: @issue.Status) %></dd>
+          <dd><%= link_to @issue.Status , issues_url(status: @issue.Status) %></dd>
         </dl>
         <dl>
           <dt>Votes</dt>

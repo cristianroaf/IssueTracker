@@ -188,7 +188,7 @@
             <td><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/onhold.png", height: 23, width: 80), issues_url(status: issue.Status) %></td>
           <% elsif issue.Status == "Resolved" %>
             <td><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/resolved.png", height: 23, width: 80), issues_url(status: issue.Status) %></td>
-          <% elsif issue.Status == "Wont fix" %>
+          <% elsif issue.Status == "Won't fix" %>
             <td><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/wontfix.png", height: 23, width: 80), issues_url(status: issue.Status) %></td>
           <% end %>
           <% if issue.Votes.nil? || issue.Votes == 0 %>
