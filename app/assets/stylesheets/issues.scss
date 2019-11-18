@@ -265,3 +265,43 @@ h1 {
     }
   }
 }
+
+.issue-comments-container {
+        
+    h2 {
+      font-size: 20px;
+    }
+    
+    
+    .actions {
+      margin-left: 150px;
+      width: 150px;
+    }
+        
+    .comentari {
+      
+      margin-top:15px;
+      margin-left:15px;
+      
+      .comenter {
+        color: blue;
+        font-weight:bold;
+        
+        .esborrar {
+          color: red;
+        }
+        
+        .esborrar:hover {
+          background:transparent;
+        }
+      }
+      
+    }
+
+    .attachment-image > img {
+      max-width: 300px;
+      border: 2px solid black;
+      border-radius: 5px;
+    }
+        
+}

@@ -61,6 +61,7 @@ a, a:visited, a:hover, a:active {
   display: block;
 }
 
+
 </style>
 <div style="width: 100%;">
   <div style="float:left; width: 70%" class="p-5">
@@ -118,42 +119,51 @@ a, a:visited, a:hover, a:active {
         </div>
         <hr align="left" width="100%">
     </div>
-            <div class="issue-comments-container">
+    <div class="issue-comments-container">
+      
+      <h2>Comments (<%= @issue.comments.size %>)</h2>
+      
+      <% @issue.comments.each do |comment| %>
+        <div class="comentari">
           
-          <h2>Comments (<%= @issue.comments.size %>)</h2>
-          
-          <% @issue.comments.each do |comment| %>
-            <div class="comentari">
-              <p class="comenter">
-                <%= comment.user.name %>
-              </p>
-             
-              <p class="coment">
-                <%= comment.text %>
-                </br>
-              </p>
-              
-              <%= time_ago_in_words(comment.created_at) + " ago" %>
-                <% if comment.user.id == current_user.id %>
-            |   <%= link_to 'Delete Comment', [comment.issue, comment],
-                         method: :delete,
-                         data: { confirm: 'Are you sure?' } , class: "esborrar" %>
-                <% end %>
-              
-            </div>
+          <p class="comenter">
+            <%= comment.attachment %>
+          </p>
+         
+          <p class="coment">
+            <%= comment.text %>
             </br>
-          <% end %>
+            <% if 1  %>
+              <div class="attachment-image">
+                <%= image_tag "https://anzieves.sirv.com/Images/Iconos/wontfix.png" %>
+              </div>
+            <% end %>         
+          </p>
           
-          <%= form_with(model: [@issue, @issue.comments.build], local: true) do |form| %>
-            <div class="input-group">
-              <%= form.text_area :text, placeholder:'What do you want to say?' %>
-              <%= form.file_field :attachment %>
-            </div>
-            <div class="actions">
-              <%= form.submit %>
-            </div>
-          <% end %>
+          <%= time_ago_in_words(comment.created_at) + " ago" %>
+            <% if comment.user.id == current_user.id %>
+            <%= link_to 'Delete Comment', [comment.issue, comment],
+                     method: :delete,
+                     data: { confirm: 'Are you sure?' } , class: "esborrar" %>
+            <% end %>
+          
         </div>
+        </br>
+      <% end %>
+      
+      <%= form_with(model: [@issue, @issue.comments.build], local: true) do |form| %>
+        <div class="input-group">
+          <%= form.text_area :text, placeholder:'What do you want to say?' %>
+          <%= form.file_field :attachment %>
+        </div>
+        <div class="actions">
+          <%= form.submit %>
+        </div>
+      <% end %>
+    </div>
+
+    
+  </div>
 
 </div>
 </div>

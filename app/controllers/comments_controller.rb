@@ -91,6 +91,34 @@ class CommentsController < ApplicationController
     end
   end
 
+  def show_attachment
+    @issue = Issue.find(params[:issue_id])
+    @comment = @issue.comments.find(params[:id])
+    respond_to do |format|
+      if @comment.attachment.file?
+        format.json {render json: @comment, status: :ok, serializer: AttachmentSerializer}
+      else
+        format.json {render json: {}, status: :ok}
+      end
+    end
+  end
+
+  def create_attachment
+    @issue = Issue.find(params[:issue_id])
+    @comment = @issue.comments.find(params[:id])
+    if @comment.user_id == current_user.id
+      @comment.attachment = Paperclip.io_adapters.for(params[:file])
+      @comment.save
+    end
+    respond_to do |format|
+      if @comment.user_id == current_user.id
+        format.json {render json: @comment, status: :created, serializer: AttachmentSerializer}
+      else
+        format.json {render json: {error: "Forbidden, you are not the creator of this comment"}, status: :forbidden}
+      end        
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_comment
@@ -99,6 +127,6 @@ class CommentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def comment_params
-      params.require(:comment).permit(:text, :user_id, :issue_id)
+      params.require(:comment).permit(:text, :attachment, :user_id, :issue_id)
     end
 end
