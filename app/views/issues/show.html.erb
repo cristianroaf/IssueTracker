@@ -77,11 +77,10 @@ a, a:visited, a:hover, a:active {
     <div class="column col-sm-9">
       <div class="px-3">
         <p style="font-size: 90%">
-
           <strong> <%= User.find(@issue.user_id).name %> </strong> created an issue <%= time_ago_in_words(@issue.created_at) + " ago" %>
         </p>
         <p style="font-size: 100%">
-          <% if @issue.Description.nil? %>
+          <% if @issue.Description.nil? || @issue.Description == ""%>
             <i>No description provided.</i>
           <% else %>
             <%= @issue.Description %>
