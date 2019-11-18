@@ -6,11 +6,8 @@ class Issue < ApplicationRecord
     has_many :watchers, dependent: :destroy
     validates :Title, :Type, :Priority, :Status, presence: true
     
-    has_attached_file :attachment, styles: { medium: "300x300>", thumb: "100x100>" },
-        :storage => :cloudinary,
-        :path => 'issues/:id/:filename',
-        :cloudinary_resource_type => :raw 
-        
+    has_one_attached :attachment
+    
     def self.status
         ["New", "Open", "On hold", "Resolved", "Duplicate", "Invalid", "Won't fix", "Closed"]
     end
@@ -20,7 +17,5 @@ class Issue < ApplicationRecord
     def self.priority
         ["Trivial", "Minor", "Major", "Critical", "Blocker"]
     end
-    
-    do_not_validate_attachment_file_type :attachment
     
 end

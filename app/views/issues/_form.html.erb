@@ -40,15 +40,20 @@
     <div class="field">
       <%= form.select :Priority, options_for_select(Issue.priority, issue[:Priority]), :class => 'genForm_dropBox' %>
     </div>
+    
+    <%= form.label :Assignee %>
+    <div class="input-group">
+      <%= form.collection_select :assignee_id, User.all, :id, :name, {:include_blank => 'No assigned user'} %>
+    </div>
 
     <div class="field" style="display:none;">
-    <%= form.text_field :user_id, required: true, class: 'form-control', value:current_user.id  %>
-    <%= form.text_field :Status, required: true, class: 'form-control', value:"New" %>
+      <%= form.text_field :user_id, required: true, class: 'form-control', value:current_user.id  %>
+      <%= form.text_field :Status, required: true, class: 'form-control', value:"New" %>
     </div>
     
     <div class="form-group">
-      <label for="FormControlFile1">Attach</label>
-      <input type="file" class="form-control-file" id="FormControlFile1">
+      <%= form.label :Attach %>
+      <%= form.file_field :attachment %>
     </div>
 
     <div style="float:right;"">

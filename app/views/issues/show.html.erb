@@ -60,170 +60,219 @@ a, a:visited, a:hover, a:active {
 .dropdown2:hover .dropdown-content {
   display: block;
 }
+
 </style>
-
-<div class="p-5">
-
-  <div class="header">
-    <div class="section-title">
-      <h2><%= @issue.Title %> </h2>
-      <div class="section-title2 px-3">
-        <h8> Issue # <%= @issue.id.to_s %>
-          <% if @issue.Status == "New" %>
-            <%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/New.png"), issues_url(status: @issue.Status) %>
-            <% elsif @issue.Status == "Open" %>
-            <%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/open.png", height: 23, width: 50), issues_url(status: @issue.Status) %>
-            <% elsif @issue.Status == "Duplicate" %>
-            <%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/duplicate.png", height: 23, width: 80), issues_url(status: @issue.Status) %>
-            <% elsif @issue.Status == "Closed" %>
-            <%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/closed.png", height: 23, width: 80), issues_url(status: @issue.Status) %>
-            <% elsif @issue.Status == "Invalid" %>
-            <%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/invalid.png", height: 23, width: 80), issues_url(status: @issue.Status) %>
-            <% elsif @issue.Status == "On hold" %>
-            <%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/onhold.png", height: 23, width: 80), issues_url(status: @issue.Status) %>
-            <% elsif @issue.Status == "Resolved" %>
-            <%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/resolved.png", height: 23, width: 80), issues_url(status: @issue.Status) %>
-            <% elsif @issue.Status == "Won't fix" %>
-            <%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/wontfix.png", height: 23, width: 80), issues_url(status: @issue.Status) %>
-          <% end %>
-        </h8>
+<div style="width: 100%;">
+  <div style="float:left; width: 70%" class="p-5">
+    <div class="header">
+      <div class="section-title">
+        <h2><%= @issue.Title %> </h2>
+        <div class="section-title2 px-3">
+          <h8> Issue # <%= @issue.id.to_s %>
+            <% if @issue.Status == "New" %>
+              <%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/New.png"), issues_url(status: @issue.Status) %>
+              <% elsif @issue.Status == "Open" %>
+              <%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/open.png", height: 23, width: 50), issues_url(status: @issue.Status) %>
+              <% elsif @issue.Status == "Duplicate" %>
+              <%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/duplicate.png", height: 23, width: 80), issues_url(status: @issue.Status) %>
+              <% elsif @issue.Status == "Closed" %>
+              <%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/closed.png", height: 23, width: 80), issues_url(status: @issue.Status) %>
+              <% elsif @issue.Status == "Invalid" %>
+              <%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/invalid.png", height: 23, width: 80), issues_url(status: @issue.Status) %>
+              <% elsif @issue.Status == "On hold" %>
+              <%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/onhold.png", height: 23, width: 80), issues_url(status: @issue.Status) %>
+              <% elsif @issue.Status == "Resolved" %>
+              <%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/resolved.png", height: 23, width: 80), issues_url(status: @issue.Status) %>
+              <% elsif @issue.Status == "Won't fix" %>
+              <%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/wontfix.png", height: 23, width: 80), issues_url(status: @issue.Status) %>
+            <% end %>
+          </h8>
+        </div>
       </div>
     </div>
-  </div>
-
-  <div class="row">
-    <div class="column col-sm-9">
-      <div class="px-3">
-        <p style="font-size: 90%">
-          <strong> <%= User.find(@issue.user_id).name %> </strong> created an issue <%= time_ago_in_words(@issue.created_at) + " ago" %>
-        </p>
-        <p style="font-size: 100%">
-          <% if @issue.Description.nil? || @issue.Description == ""%>
-            <i>No description provided.</i>
-          <% else %>
-            <%= @issue.Description %>
+  
+    <div class="row">
+      <div class="column col-sm-9">
+        <div class="px-3">
+          <p style="font-size: 90%">
+            <strong> <%= User.find(@issue.user_id).name %> </strong> created an issue <%= time_ago_in_words(@issue.created_at) + " ago" %>
+          </p>
+          <p style="font-size: 100%">
+            <% if @issue.Description.nil? || @issue.Description == ""%>
+              <i>No description provided.</i>
+            <% else %>
+              <%= @issue.Description %>
+            <% end %>
+          </p>
+        </div>
+        <div>
+            <% if @issue.attachment.nil? %>
+                <p>Attachment<a href=<%= @issue.attachment.url %> > <%=@issue.attachment.original_filename%></a> last updated <%=time_ago_in_words(Time.at(@issue.attachment.updated_at))%></p>
+                <p>Content type <%=@issue.attachment.content_type%></p>
+                <% if @issue.attachment.content_type.include? 'image/' %>
+                    <div>
+                      <a href=<%= @issue.attachment.url %> ><%= image_tag @issue.attachment.url(:thumb) %> </a>
+                    </div>
+                <%end%>
+            <% end %>
+        </div>
+        <hr align="left" width="100%">
+    </div>
+            <div class="issue-comments-container">
+          
+          <h2>Comments (<%= @issue.comments.size %>)</h2>
+          
+          <% @issue.comments.each do |comment| %>
+            <div class="comentari">
+              <p class="comenter">
+                <%= comment.user.name %>
+              </p>
+             
+              <p class="coment">
+                <%= comment.text %>
+                </br>
+              </p>
+              
+              <%= time_ago_in_words(comment.created_at) + " ago" %>
+                <% if comment.user.id == current_user.id %>
+            |   <%= link_to 'Delete Comment', [comment.issue, comment],
+                         method: :delete,
+                         data: { confirm: 'Are you sure?' } , class: "esborrar" %>
+                <% end %>
+              
+            </div>
+            </br>
           <% end %>
-        </p>
-      </div>
-      <hr align="left" width="100%">
+          
+          <%= form_with(model: [@issue, @issue.comments.build], local: true) do |form| %>
+            <div class="input-group">
+              <%= form.text_area :text, placeholder:'What do you want to say?' %>
+              <%= form.file_field :attachment %>
+            </div>
+            <div class="actions">
+              <%= form.submit %>
+            </div>
+          <% end %>
+        </div>
 
-  <p>
-    <strong> <h6>Comments</h6> </strong>
-  </p>
+</div>
+</div>
 
-  </div>  
-    <% if current_user %>
-    <div class="sidebar col-sm-3" >
-    <div class="row pb-3" >
-      <div class="pr-1">
-        <% if @issue.Status == "Open" || @issue.Status == "New" %>
-          <a class="btn btn-primary" style="color: white" <%= link_to 'Resolve', update_status_url(id: @issue.id, status: "Resolved"), method: :put %> </a>
-        <% else %>
-          <a class="btn btn-primary" style="color: white" <%= link_to 'Open', update_status_url(id: @issue.id, status: "Open"), method: :put, class:'open'%> </a>
+  <div style="float:left;">
+      <% if current_user %>
+      <div style="width: 100%" class="sidebar col-sm-3" >
+        <div class="row pb-3" >
+          <div class="pr-1">
+            <% if @issue.Status == "Open" || @issue.Status == "New" %>
+              <a class="btn btn-primary" style="color: white" <%= link_to 'Resolve', update_status_url(id: @issue.id, status: "Resolved"), method: :put %> </a>
+            <% else %>
+              <a class="btn btn-primary" style="color: white" <%= link_to 'Open', update_status_url(id: @issue.id, status: "Open"), method: :put, class:'open'%> </a>
+            <% end %>
+          </div>
+          
+           <div>
+              <div class="dropdown2">
+                <button type="button" class="btn btn-secondary dropdown-toggle">Workflow</button>
+                <div class="dropdown-content">
+                <% Issue.status.each do |status| %>
+                  <% if status != @issue.Status %>
+                    <li><a <%= content_tag(:li, link_to(status, update_status_url(id: @issue.id, status: status), method: :put)) %> </li></a>
+                  <% end %>
+                <% end %>
+                </div>
+              </div>
+          </div> 
+          <div class="pl-5">
+            <button type="button" class="btn btn-light"> Attach </button> 
+          </div>
+    
+          <div class="col-sm-2">
+            <button class="btn btn-light">
+              <%= link_to 'Edit', edit_issue_path(@issue) %>
+            </button>
+          </div>
         <% end %>
       </div>
-      
-       <div>
-          <div class="dropdown2">
-            <button type="button" class="btn btn-secondary dropdown-toggle">Workflow</button>
-            <div class="dropdown-content">
-            <% Issue.status.each do |status| %>
-              <% if status != @issue.Status %>
-                <li><a <%= content_tag(:li, link_to(status, update_status_url(id: @issue.id, status: status), method: :put)) %> </li></a>
-              <% end %>
-            <% end %>
-            </div>
-          </div>
-      </div> 
-      <div class="pl-5">
-        <button type="button" class="btn btn-light"> Attach </button> 
-      </div>
-
-      <div class="col-sm-2">
-        <button class="btn btn-light">
-          <%= link_to 'Edit', edit_issue_path(@issue) %>
-        </button>
-      </div>
-    <% end %>
     </div>
-    
-  <div class="issue-attrs">
-        <dl>
-          <dt> Asignee </dt>
-          <% if !@issue.asignee.nil? %>
-            <dd><%= link_to @issue.asignee.name, issues_url(assignee: @issue.asignee.id) %></dd>
-          <% else %>
-            <dd>-</dd>
-          <% end %>
-        </dl>
-        <dl>
-          <dt> Type </dt>
-          <% if @issue.Type == "Bug" %>
-            <dd><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Bug.png", height: 20, width: 20) + " " + @issue.Type , issues_url(type: @issue.Type) %></dd>
-          <% elsif @issue.Type == "Enhancement" %>
-            <dd><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Enhancement.png", height: 20, width: 20) + " " + @issue.Type , issues_url(type: @issue.Type) %></dd>
-          <% elsif @issue.Type == "Proposal" %>
-            <dd><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Proposal.png", height: 20, width: 20) + " " + @issue.Type , issues_url(type: @issue.Type) %></dd>
-          <% elsif @issue.Type == "Task" %>
-            <dd><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Task.png", height: 20, width: 20) + " " + @issue.Type , issues_url(type: @issue.Type) %></dd>
-          <% end %>
-        </dl>
-        <dl>
-          <dt>Priority</dt>
-          <% if @issue.Priority == "Blocker" %>
-            <dd><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Blocker.png", height: 20, width: 20) + " " + @issue.Priority , issues_url(priority: @issue.Priority) %></dd>
-          <% elsif @issue.Priority == "Critical" %>
-            <dd><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Critical.png", height: 20, width: 20) + " " + @issue.Priority , issues_url(priority: @issue.Priority) %></dd>
-          <% elsif @issue.Priority == "Major" %>
-            <dd><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Major.png", height: 20, width: 20) + " " + @issue.Priority , issues_url(priority: @issue.Priority) %></dd>
-          <% elsif @issue.Priority == "Minor" %>
-            <dd><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Minor.png", height: 20, width: 20) + " " + @issue.Priority , issues_url(priority: @issue.Priority) %></dd>
-          <% elsif @issue.Priority == "Trivial" %>
-            <dd><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Trivial.png", height: 20, width: 20) + " " + @issue.Priority , issues_url(priority: @issue.Priority) %></dd>
-          <% end %>
-        </dl>
-        <dl>
-          <dt>Status</dt>
-          <dd><%= link_to @issue.Status , issues_url(status: @issue.Status) %></dd>
-        </dl>
-        <dl>
-          <dt>Votes</dt>
-            <dd>
-              <% if @issue.Votes.nil? %>
-                <%= "0 " %>
-              <% else %>
-                <%= @issue.Votes %>
-              <% end %>
-                  <% if !Vote.exists?(:issue_id => @issue.id, :user_id => current_user.id) %>
-                  <%= link_to 'Vote for this issue', vote_path(id: @issue.id), method: :post, class:"vote" %>
-                  <% else %>
-                  <%= link_to 'Remove vote', vote_path(id: @issue.id), method: :post, class:"vote" %>
-                  <% end %>
-            </dd>
-        </dl>
-        <dl>
-          <dt>Watchers</dt>
-            <dd>
-              <% if @issue.Watchers.nil? %>
-                <%= "0 " %>
-              <% else %>
-                <%= @issue.Watchers %>
-              <% end %>
-              <% if !Watcher.exists?(:issue_id => @issue.id, :user_id => current_user.id) %>
-                  <%= link_to 'Watch this issue', watch_url(id: @issue.id, view: "issue"), method: :post, class:"vote" %>
-              <% else %>
-                  <%= link_to 'Stop watching', watch_url(id: @issue.id, view: "issue"), method: :post, class:"vote" %>
-              <% end %>
-            </dd>
-        </dl>
+    <div class="issue-attrs">
+          <dl>
+            <dt> Asignee </dt>
+            <% if !@issue.asignee.nil? %>
+              <dd><%= link_to @issue.asignee.name, issues_url(assignee: @issue.asignee.id) %></dd>
+            <% else %>
+              <dd>-</dd>
+            <% end %>
+          </dl>
+          <dl>
+            <dt> Type </dt>
+            <% if @issue.Type == "Bug" %>
+              <dd><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Bug.png", height: 20, width: 20) + " " + @issue.Type , issues_url(type: @issue.Type) %></dd>
+            <% elsif @issue.Type == "Enhancement" %>
+              <dd><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Enhancement.png", height: 20, width: 20) + " " + @issue.Type , issues_url(type: @issue.Type) %></dd>
+            <% elsif @issue.Type == "Proposal" %>
+              <dd><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Proposal.png", height: 20, width: 20) + " " + @issue.Type , issues_url(type: @issue.Type) %></dd>
+            <% elsif @issue.Type == "Task" %>
+              <dd><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Task.png", height: 20, width: 20) + " " + @issue.Type , issues_url(type: @issue.Type) %></dd>
+            <% end %>
+          </dl>
+          <dl>
+            <dt>Priority</dt>
+            <% if @issue.Priority == "Blocker" %>
+              <dd><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Blocker.png", height: 20, width: 20) + " " + @issue.Priority , issues_url(priority: @issue.Priority) %></dd>
+            <% elsif @issue.Priority == "Critical" %>
+              <dd><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Critical.png", height: 20, width: 20) + " " + @issue.Priority , issues_url(priority: @issue.Priority) %></dd>
+            <% elsif @issue.Priority == "Major" %>
+              <dd><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Major.png", height: 20, width: 20) + " " + @issue.Priority , issues_url(priority: @issue.Priority) %></dd>
+            <% elsif @issue.Priority == "Minor" %>
+              <dd><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Minor.png", height: 20, width: 20) + " " + @issue.Priority , issues_url(priority: @issue.Priority) %></dd>
+            <% elsif @issue.Priority == "Trivial" %>
+              <dd><%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/Trivial.png", height: 20, width: 20) + " " + @issue.Priority , issues_url(priority: @issue.Priority) %></dd>
+            <% end %>
+          </dl>
+          <dl>
+            <dt>Status</dt>
+            <dd><%= link_to @issue.Status , issues_url(status: @issue.Status) %></dd>
+          </dl>
+          <dl>
+            <dt>Votes</dt>
+              <dd>
+                <% if @issue.Votes.nil? %>
+                  <%= "0 " %>
+                <% else %>
+                  <%= @issue.Votes %>
+                <% end %>
+                    <% if !Vote.exists?(:issue_id => @issue.id, :user_id => current_user.id) %>
+                    <%= link_to 'Vote for this issue', vote_path(id: @issue.id), method: :post, class:"vote" %>
+                    <% else %>
+                    <%= link_to 'Remove vote', vote_path(id: @issue.id), method: :post, class:"vote" %>
+                    <% end %>
+              </dd>
+          </dl>
+          <dl>
+            <dt>Watchers</dt>
+              <dd>
+                <% if @issue.Watchers.nil? %>
+                  <%= "0 " %>
+                <% else %>
+                  <%= @issue.Watchers %>
+                <% end %>
+                <% if !Watcher.exists?(:issue_id => @issue.id, :user_id => current_user.id) %>
+                    <%= link_to 'Watch this issue', watch_url(id: @issue.id, view: "issue"), method: :post, class:"vote" %>
+                <% else %>
+                    <%= link_to 'Stop watching', watch_url(id: @issue.id, view: "issue"), method: :post, class:"vote" %>
+                <% end %>
+              </dd>
+          </dl>
+        </div>
       </div>
     </div>
   </div>
+</div>  
+
 
   
 
-  <%= link_to 'Edit', edit_issue_path(@issue) %> |
-  <%= link_to 'Back', issues_path %>
+
 </div>
 
 

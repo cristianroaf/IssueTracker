@@ -12,6 +12,7 @@ gem 'devise'
 gem 'omniauth-google-oauth2'
 gem 'bootstrap', '~> 4.3.1'
 gem 'jquery-rails'
+gem "aws-sdk-s3", require: false
 
 group :development, :test do
   gem 'sqlite3', '1.4.1'

@@ -1,15 +1,23 @@
 class CommentsController < ApplicationController
   before_action :set_comment, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
 
-  # GET /comments
-  # GET /comments.json
   def index
-    @comments = Comment.all
+    @issue = Issue.find(params[:issue_id])
+    comments = @issue.comments
+    respond_to do |format|
+      format.json {render json: comments, status: :ok, each_serializer: CommentSerializer}
+    end
   end
 
   # GET /comments/1
   # GET /comments/1.json
   def show
+    @issue = Issue.find(params[:issue_id])
+    @comment = @issue.comments.find(params[:id])
+    respond_to do |format|
+      format.json {render json: @comment, status: :ok, each_serializer: CommentSerializer}
+    end
   end
 
   # GET /comments/new
@@ -25,15 +33,13 @@ class CommentsController < ApplicationController
   # POST /comments.json
   def create
     @comment = Comment.new(comment_params)
-
+    @issue = Issue.find(params[:issue_id])
+    @comment.issue_id = @issue.id
+    @comment.user_id = current_user.id
+    @comment.save
     respond_to do |format|
-      if @comment.save
-        format.html { redirect_to @comment, notice: 'Comment was successfully created.' }
-        format.json { render :show, status: :created, location: @comment }
-      else
-        format.html { render :new }
-        format.json { render json: @comment.errors, status: :unprocessable_entity }
-      end
+      format.json {render json: @comment, status: :created, each_serializer: CommentSerializer}
+      format.html {redirect_to issue_path(@issue)}
     end
   end
 
@@ -54,10 +60,34 @@ class CommentsController < ApplicationController
   # DELETE /comments/1
   # DELETE /comments/1.json
   def destroy
-    @comment.destroy
+    @issue = Issue.find(params[:issue_id])
+    @comment = @issue.comments.find(params[:id])
+    if @comment.user_id == current_user.id
+      @comment.destroy
+    end
     respond_to do |format|
-      format.html { redirect_to comments_url, notice: 'Comment was successfully destroyed.' }
-      format.json { head :no_content }
+      if @comment.user_id == current_user.id
+        format.json {render json: {}, status: :ok}
+        format.html {redirect_to issue_path(@issue)}
+      else
+        format.json {render json: {error: "Forbidden, you are not the creator of this comment"}, status: :forbidden}
+      end
+    end
+  end
+
+  def update
+    @issue = Issue.find(params[:issue_id])
+    @comment = @issue.comments.find(params[:id])
+    if @comment.user_id == current_user.id
+      @comment.update(comment_params)
+    end
+    respond_to do |format|
+      if @comment.user_id == current_user.id
+        format.json {render json: @comment, status: :ok, each_serializer: CommentSerializer}
+        format.html {redirect_to issue_path(@issue)}
+      else
+        format.json {render json: {error: "Forbidden, you are not the creator of this comment"}, status: :forbidden}
+      end
     end
   end
 

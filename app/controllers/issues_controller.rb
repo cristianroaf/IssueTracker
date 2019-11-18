@@ -99,7 +99,6 @@ class IssuesController < ApplicationController
   # POST /issues.json
   def create
     @issue = Issue.new(issue_params)
-    @issue = Issue.new(issue_params)
     @issue.user_id = current_user.id
     respond_to do |format|
       if (issue_params.has_key?(:assignee_id) && issue_params[:assignee_id] != "" && !User.exists?(id: issue_params[:assignee_id]))
@@ -197,7 +196,33 @@ class IssuesController < ApplicationController
       format.json { render json: @issue_to_watch, status: :ok }
     end
   end
+  
+  def show_attachment
+    @issue = Issue.find(params[:id])
+    respond_to do |format|
+      if @issue.attachment.file?
+        format.json {render json: @issue, status: :ok, serializer: IssueattachmentSerializer}
+      else
+        format.json {render json: {}, status: :ok}
+      end
+    end
+  end
 
+  def create_attachment
+    @issue = Issue.find(params[:id])
+    if @issue.user.id == current_user.id
+      @issue.attachment = Paperclip.io_adapters.for(params[:file])
+      @issue.save
+    end
+    respond_to do |format|
+      if @issue.user.id == current_user.id
+        format.json {render json: @issue, status: :created, serializer: IssueattachmentSerializer}
+      else
+        format.json {render json: {error: "Forbidden, you are not the creator of this issue"}, status: :forbidden}
+      end
+    end
+  end
+  
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_issue
