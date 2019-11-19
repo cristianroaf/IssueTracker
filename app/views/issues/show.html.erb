@@ -126,40 +126,26 @@ a, a:visited, a:hover, a:active {
       <h2>Comments (<%= @issue.comments.size %>)</h2>
       
       <% @issue.comments.each do |comment| %>
-        <div class="comentari">
-          
-          <p class="comenter">
-            <%= comment.attachment %>
-          </p>
-         
-          <p class="coment">
-            <%= comment.text %>
-            </br>
-            <% if 1  %>
-              <div class="attachment-image">
-                <%= image_tag "https://anzieves.sirv.com/Images/Iconos/wontfix.png" %>
-              </div>
-            <% end %>         
-          </p>
-          
+        <div>
+          <p><b><%= comment.user.name %></b></p>
+          <p><%= comment.text %></p>
           <%= time_ago_in_words(comment.created_at) + " ago" %>
             <% if comment.user.id == current_user.id %>
             <%= link_to 'Delete Comment', [comment.issue, comment],
                      method: :delete,
-                     data: { confirm: 'Are you sure?' } , class: "esborrar" %>
+                     data: { confirm: 'Are you sure?' } %>
             <% end %>
-          
         </div>
-        </br>
+        <br>
       <% end %>
       
       <%= form_with(model: [@issue, @issue.comments.build], local: true) do |form| %>
-        <div class="input-group">
-          <%= form.text_area :text, placeholder:'What do you want to say?' %>
+        <div>
+          <%= form.text_area :text, placeholder:'What do you want to say?', class:"form-control" %>
+          <br>
           <%= form.file_field :attachment %>
-        </div>
-        <div class="actions">
-          <%= form.submit %>
+          <hr>
+          <%= form.submit 'Create comment', :class => "btn btn-outline-secondary" %>
         </div>
       <% end %>
     </div>
