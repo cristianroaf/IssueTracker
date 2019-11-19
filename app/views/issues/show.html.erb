@@ -128,12 +128,15 @@ a, a:visited, a:hover, a:active {
       <% @issue.comments.each do |comment| %>
         <div>
           <p><b><%= comment.user.name %></b></p>
-          <p><%= comment.text %></p>
+          <p style="font-size: 100%"><%= comment.text %></p>
+          <p class="text-muted" style="font-size: 90%">
           <%= time_ago_in_words(comment.created_at) + " ago" %>
             <% if comment.user.id == current_user.id %>
-            <%= link_to 'Delete Comment', [comment.issue, comment],
+            &#8226;
+            <%= link_to 'Delete', [comment.issue, comment],
                      method: :delete,
                      data: { confirm: 'Are you sure?' } %>
+            </p>
             <% end %>
         </div>
         <br>
@@ -190,6 +193,13 @@ a, a:visited, a:hover, a:active {
               <%= link_to 'Edit', edit_issue_path(@issue) %>
             </button>
           </div>
+
+          <div class="pl-2">
+            <button class="btn btn-light">     
+              <%= link_to 'Back', issues_path %>
+            </button>
+          </div>
+
         <% end %>
       </div>
     </div>
@@ -269,7 +279,6 @@ a, a:visited, a:hover, a:active {
 </div>  
 
 
-  
 
 
 </div>
