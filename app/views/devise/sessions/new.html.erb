@@ -92,44 +92,14 @@
               <b>To proceed, please sign in using Google:</b>
               <p></p>
               <span>
-              <%- if devise_mapping.omniauthable? %>
-              <%- resource_class.omniauth_providers.each do |provider| %>
-              <%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/sign_in.png"), omniauth_authorize_path(resource_name, provider) %><br />
-              <% end %>
-              <% end %>
+                <%- if devise_mapping.omniauthable? %>
+                  <%- resource_class.omniauth_providers.each do |provider| %>
+                    <%= link_to image_tag("https://anzieves.sirv.com/Images/Iconos/sign_in.png"), omniauth_authorize_path(resource_name, provider) %><br />
+                  <% end %>
+                <% end %>
               </span>
             </div>
             <hr>
-            <b>ESTO DE AQUI ABAJO HAY QUE QUITARLO PERO AÚN HAY QUE HACER PRUEBAS</b>
-            <div class="field">
-              <label for="user"><b>Email</b></label>
-              <%= f.text_field :email, autofocus: true, autocomplete: "email" %>
-            </div>
-            <hr>
-            <div class="field">
-              <label for="password"><b>Password</b></label>
-              <%= f.password_field :password, autocomplete: "current-password" %>
-            </div>
-            <hr>
-            <% if devise_mapping.rememberable? %>
-              <div class="field">
-                <%= f.label :remember_me %>
-                <%= f.check_box :remember_me %>
-              </div>
-            <% end %>
-          
-            <div class="loginbtn">
-              <%= f.submit "Log in" %>
-            </div>
           <% end %>
       </div>
-      <div class="container">
-          <%- if devise_mapping.omniauthable? %>
-          <%- resource_class.omniauth_providers.each do |provider| %>
-          <%= link_to "Sign in with #{OmniAuth::Utils.camelize(provider)}", omniauth_authorize_path(resource_name, provider) %><br />
-          <% end %>
-          <% end %>
-      </div>
-      
-
 </body>
