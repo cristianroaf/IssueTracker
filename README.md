@@ -3,6 +3,8 @@
 This repository contains a working ruby 6.0 project, based on the issue tracker of bitbucket: https://bitbucket.org/
 Developed for the ASW project at UPC during the course 2019-Q2.
 
+App running at: https://blooming-dusk-00596.herokuapp.com/
+
 ## Authors
 
 * **Jaume Malgosa** - [TrajanoCaligula](https://github.com/TrajanoCaligula)
