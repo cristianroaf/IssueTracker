@@ -43,7 +43,7 @@
     
     <%= form.label :Assignee %>
     <div class="input-group">
-      <%= form.collection_select :assignee_id, User.all, :id, :name, {:include_blank => 'No assigned user'} %>
+      <%= form.collection_select :asignee_id, User.all, :id, :name, {:include_blank => 'No assigned user'} %>
     </div>
 
     <div class="field" style="display:none;">
