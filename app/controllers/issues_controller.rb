@@ -41,15 +41,15 @@ class IssuesController < ApplicationController
       end
       
       if params.has_key?(:sort)
-        if params[:sort] == "votes"
-          @issues = @issues.order('votes asc')
-        elsif params[:sort] == "priority"
-          @issues = @issues.order('priority asc')
-        elsif params[:sort] == "kind"
-          @issues = @issues.order('type asc')
-        elsif params[:sort] == "status"
-          @issues = @issues.order('status asc')
-        elsif params[:sort] == "assignee"
+        #if params[:sort] == "votes"
+         # @issues = @issues.order('votes asc')
+        #elsif params[:sort] == "priority"
+         # @issues = @issues.order('priority asc')
+        #elsif params[:sort] == "kind"
+         # @issues = @issues.order('type asc')
+        #elsif params[:sort] == "status"
+         # @issues = @issues.order('status asc')
+        if params[:sort] == "assignee"
           @issues = @issues.order('asignee_id asc')
         elsif params[:sort] == "created"
           @issues = @issues.order('created_at asc')
@@ -57,14 +57,14 @@ class IssuesController < ApplicationController
           @issues = @issues.order('updated_at asc')
         elsif params[:sort] == "Title"
           @issues = @issues.order('id asc')
-        elsif params[:sort] == "-votes"
-          @issues = @issues.order('votes desc')
-        elsif params[:sort] == "-priority"
-          @issues = @issues.order('priority desc')
-        elsif params[:sort] == "-kind"
-          @issues = @issues.order('type desc')
-        elsif params[:sort] == "-status"
-          @issues = @issues.order('status desc')
+        #elsif params[:sort] == "-votes"
+         # @issues = @issues.order('votes desc')
+        #elsif params[:sort] == "-priority"
+        #  @issues = @issues.order('priority desc')
+        #elsif params[:sort] == "-kind"
+        #  @issues = @issues.order('type desc')
+        #elsif params[:sort] == "-status"
+        #  @issues = @issues.order('status desc')
         elsif params[:sort] == "-assignee"
           @issues = @issues.order('asignee_id desc')
         elsif params[:sort] == "-created"
