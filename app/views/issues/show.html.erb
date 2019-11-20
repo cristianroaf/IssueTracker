@@ -190,7 +190,11 @@ a, a:visited, a:hover, a:active {
     
           <div class="col-sm-2">
             <button class="btn btn-light">
-              <%= link_to 'Edit', edit_issue_path(@issue) %>
+              <% if current_user == User.find(@issue.user_id)%>
+                <%= link_to 'Edit', edit_issue_path(@issue) %>
+              <% else %>
+                Edit
+              <% end %>
             </button>
           </div>
     
