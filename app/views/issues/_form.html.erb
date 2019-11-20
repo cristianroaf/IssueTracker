@@ -46,6 +46,8 @@
       <%= form.collection_select :asignee_id, User.all, :id, :name, {:include_blank => 'No assigned user'} %>
     </div>
 
+    <br>
+
     <div class="field" style="display:none;">
       <%= form.text_field :user_id, required: true, class: 'form-control', value:current_user.id  %>
       <%= form.text_field :Status, required: true, class: 'form-control', value:"New" %>

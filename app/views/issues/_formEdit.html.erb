@@ -58,6 +58,13 @@
       <%= form.text_field :Status, required: true, class: 'form-control', value:"New" %>
       <%= form.text_field :Watchers, required: true, class: 'form-control', value:1 %>
       </div>
+
+      <%= form.label :Assignee %>
+        <div class="input-group">
+          <%= form.collection_select :asignee_id, User.all, :id, :name, {:include_blank => 'No assigned user'} %>
+      </div>
+
+      <br>
       
       <div class="form-group">
         <label for="FormControlFile1">Attach</label>
