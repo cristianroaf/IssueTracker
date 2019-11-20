@@ -1,27 +1,7 @@
 # ASW - Issue Tracker
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+This repository contains a working ruby 6.0 project, based on the issue tracker of bitbucket: https://bitbucket.org/
+Developed for the ASW project at UPC during the course 2019-Q2.
 
 ## Authors
 
