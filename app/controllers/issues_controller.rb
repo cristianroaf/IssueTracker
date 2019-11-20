@@ -42,13 +42,13 @@ class IssuesController < ApplicationController
       
       if params.has_key?(:sort)
         if params[:sort] == "votes"
-          @issues = @issues.order('Votes asc')
+          @issues = @issues.order('votes asc')
         elsif params[:sort] == "priority"
-          @issues = @issues.order('Priority asc')
+          @issues = @issues.order('priority asc')
         elsif params[:sort] == "kind"
-          @issues = @issues.order('Type asc')
+          @issues = @issues.order('type asc')
         elsif params[:sort] == "status"
-          @issues = @issues.order('Status asc')
+          @issues = @issues.order('status asc')
         elsif params[:sort] == "assignee"
           @issues = @issues.order('asignee_id asc')
         elsif params[:sort] == "created"
@@ -58,13 +58,13 @@ class IssuesController < ApplicationController
         elsif params[:sort] == "Title"
           @issues = @issues.order('id asc')
         elsif params[:sort] == "-votes"
-          @issues = @issues.order('Votes desc')
+          @issues = @issues.order('votes desc')
         elsif params[:sort] == "-priority"
-          @issues = @issues.order('Priority desc')
+          @issues = @issues.order('priority desc')
         elsif params[:sort] == "-kind"
-          @issues = @issues.order('Type desc')
+          @issues = @issues.order('type desc')
         elsif params[:sort] == "-status"
-          @issues = @issues.order('Status desc')
+          @issues = @issues.order('status desc')
         elsif params[:sort] == "-assignee"
           @issues = @issues.order('asignee_id desc')
         elsif params[:sort] == "-created"
