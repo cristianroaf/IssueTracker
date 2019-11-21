@@ -33,10 +33,12 @@
         </div>
       </div>
 
-      <%= form.label :Description %>
-      <div class="field">
-        <textarea id="Description" style="width: 70%">
-        </textarea>
+    <%= form.label :Description %>
+    <div class="form-group">
+      <div class="field"> 
+      <%= form.text_area(:Description, size: '100x5')%>
+      </div>
+
 
       </div>
 
