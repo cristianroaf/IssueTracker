@@ -1,76 +1,73 @@
 ---
-openapi: 3.0.1
+swagger: "2.0"
 info:
-  title: API V1
-  version: v1
+  description: "This is the documentation file for ASW Issue Tracker."
+  version: "1.0.0"
+  title: "Issue Tracker"
+host: "----HEROKU-URL-----"
 paths:
-  "/blogs":
-    post:
-      summary: Creates a blog
-      tags:
-      - Blogs
-      consumes:
-      - application/json
-      - application/xml
-      parameters:
-      - name: blog
-        in: body
-        schema:
-          type: object
-          properties:
-            title:
-              type: string
-            content:
-              type: string
-          required:
-          - title
-          - content
-      responses:
-        '201':
-          description: blog created
-        '422':
-          description: invalid request
-  "/blogs/{id}":
+  /issues:
     get:
-      summary: Retrieves a blog
       tags:
-      - Blogs
+      - "Issues"
+      summary: "Gets all the Issues"
       produces:
-      - application/json
-      - application/xml
+      - "application/json"
       parameters:
-      - name: id
-        in: path
-        type: string
-        required: true
+        - in: query
+          name: type
+          description: Gets `Issue` objects by type
+          required: false
+          type: string
+          enum:
+            - Bug
+            - Enhancement
+            - Proposal
+            - Task
+        - in: query
+          name: priority
+          description: Gets `Issue` objects by priority
+          required: false
+          type: string
+          enum:
+            - Trivial
+            - Minor
+            - Major
+            - Critical
+            - Blocker
+        - in: query
+          name: status
+          description: Gets `Issue` objects by status
+          required: false
+          type: string
+          enum:
+            - New
+            - Open
+            - On hold
+            - Resolved
+            - Duplicate
+            - Invalid
+            - Won't fix
+            - Closed
+            - New&Open
+        - in: query
+          name: assignee
+          description: Gets `Issue` objects by assignee
+          required: false
+          type: integer
+        - in: query
+          name: watcher
+          description: Gets `Issue` objects watched by a user
+          required: false
+          type: integer
       responses:
-        '200':
-          description: blog found
+        '422':
+          description: User does not exist
           schema:
             type: object
             properties:
-              id:
-                type: integer
-              title:
-                type: string
-              content:
-                type: string
-            required:
-            - id
-            - title
-            - content
-        '404':
-          description: blog not found
-        '406':
-          description: unsupported accept header
-  "/issues":
-    get:
-      summary: list issues
-      tags:
-      - Issues
-      responses:
-        '200':
-          description: successful
+              error:
+                example: User with id=1000 does not exist
     post:
       summary: create issue
       tags:
