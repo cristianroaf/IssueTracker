@@ -4,7 +4,7 @@ info:
   description: "This is the documentation file for ASW Issue Tracker."
   version: "1.0.0"
   title: "Issue Tracker"
-host: "----HEROKU-URL-----"
+host: blooming-dusk-00596.herokuapp.com
 paths:
   /issues:
     get:
@@ -68,35 +68,69 @@ paths:
             properties:
               error:
                 example: User with id=1000 does not exist
+        '200':
+          description: successful
     post:
-      summary: create issue
+      produces:
+      - "application/json"
       tags:
       - Issues
+      summary: "Create a new Issue"
+      description: ""
+      consumes:
+      - "application/x-www-form-urlencoded"
+      - "application/json"
+      parameters:
+      - name: "api_key"
+        in: "header"
+        required: true
+        type: "string"
+      - in: query
+        type: string
+        name: "Title"
+        required: true
+      - in: query
+        type: string
+        name: "Description"
+        required: false
+      - in: "formData"
+        name: Type
+        description: Set the type of `Issue`
+        required: false
+        type: string
+        enum:
+          - Bug
+          - Enhancement
+          - Proposal
+          - Task
+      - in: "formData"
+        name: Priority
+        description: Set the priority of `Issue`
+        required: false
+        type: string
+        enum:
+          - Trivial
+          - Minor
+          - Major
+          - Critical
+          - Blocker
+      - in: "formData"
+        name: assegnee
+        description: Set the man in charge of `Issue`
+        required: false
+        type: string
+        enum:
+          - Trivial
+          - Minor
+          - Major
+          - Critical
+          - Blocker
       responses:
         '200':
           description: successful
-  "/issues/new":
-    get:
-      summary: new issue
-      tags:
-      - Issues
-      responses:
-        '200':
-          description: successful
-  "/issues/{id}/edit":
-    parameters:
-    - name: id
-      in: path
-      type: string
-      description: id
-      required: true
-    get:
-      summary: edit issue
-      tags:
-      - Issues
-      responses:
-        '200':
-          description: successful
+        405:
+          description: "Invalid input"
+        
   "/issues/{id}":
     parameters:
     - name: id
@@ -111,51 +145,92 @@ paths:
       responses:
         '200':
           description: successful
-    patch:
-      summary: update issue
-      tags:
-      - Issues
-      responses:
-        '200':
-          description: successful
     put:
       summary: update issue
       tags:
       - Issues
+      consumes:
+      - "application/x-www-form-urlencoded"
+      parameters:
+      - name: "api_key"
+        in: "header"
+        required: true
+        type: "string"
+      - in: "query"
+        type: string
+        name: "Title"
+        required: true
+      - in: "query"
+        type: string
+        name: "Description"
+        required: false
+      - in: "formData"
+        name: Type
+        description: Set the type of `Issue`
+        required: false
+        type: string
+        enum:
+          - Bug
+          - Enhancement
+          - Proposal
+          - Task
+      - in: "formData"
+        name: Priority
+        description: Set the priority of `Issue`
+        required: false
+        type: string
+        enum:
+          - Trivial
+          - Minor
+          - Major
+          - Critical
+          - Blocker
+      - in: "formData"
+        name: assegnee
+        description: Set the man in charge of `Issue`
+        required: false
+        type: string
+        enum:
+          - Trivial
+          - Minor
+          - Major
+          - Critical
+          - Blocker
+      - in: "formData"
+        name: Status
+        description: Set the man in charge of `Issue`
+        required: false
+        type: string
+        enum:
+          - Open
+          - On hold
+          - Resolved
+          - Duplicate
+          - Invalid
+          - Won't fix
+          - Closed
       responses:
         '200':
           description: successful
     delete:
       summary: delete issue
+      description: ""
+      operationId: "deleteIssueID"
+      produces:
+      - "application/json"
       tags:
       - Issues
+      parameters:
+      - name: "api_key"
+        in: "header"
+        required: true
+        type: "string"
       responses:
         '200':
           description: successful
   "/":
     get:
       summary: list issues
-      tags:
-      - Issues
-      responses:
-        '200':
-          description: successful
-  "/issues/{id}/attachment":
-    parameters:
-    - name: id
-      in: path
-      type: string
-      description: id
-      required: true
-    get:
-      summary: show_attachment issue
-      tags:
-      - Issues
-      responses:
-        '200':
-          description: successful
-    post:
-      summary: create_attachment issue
       tags:
       - Issues
       responses:
@@ -172,6 +247,11 @@ paths:
       summary: vote issue
       tags:
       - Issues
+      parameters:
+      - name: "api_key"
+        in: "header"
+        required: true
+        type: "string"
       responses:
         '200':
           description: successful
@@ -186,20 +266,11 @@ paths:
       summary: watch issue
       tags:
       - Issues
-      responses:
-        '200':
-          description: successful
-  "/issues/{id}/status":
-    parameters:
-    - name: id
-      in: path
-      type: string
-      description: id
-      required: true
-    put:
-      summary: update_status issue
-      tags:
-      - Issues
+      parameters:
+      - name: "api_key"
+        in: "header"
+        required: true
+        type: "string"
       responses:
         '200':
           description: successful
