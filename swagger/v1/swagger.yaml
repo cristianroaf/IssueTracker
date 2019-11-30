@@ -95,7 +95,7 @@ paths:
       in: path
       type: string
       description: api_key
-      required:true
+      required: true
     get:
       summary: new comment
       responses:
