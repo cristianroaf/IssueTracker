@@ -16,6 +16,7 @@ gem "aws-sdk-s3", require: false
 gem "paperclip", "~> 5.0.0.beta1"
 gem 'rswag'
 gem 'rspec-rails', '~> 3.5'
+gem 'rack-cors'
 
 group :development, :test do
   gem 'sqlite3', '1.4.1'
