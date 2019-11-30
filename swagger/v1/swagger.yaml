@@ -3,7 +3,9 @@ openapi: 3.0.1
 info:
   title: "Issue Tracker"
   version: 1.0.0
-  host: "----HEROKU-URL----"
+  host: "https://blooming-dusk-00596.herokuapp.com"
+servers: 
+  - url: https://blooming-dusk-00596.herokuapp.com
 paths:
 #  "/blogs":
 #    post:
