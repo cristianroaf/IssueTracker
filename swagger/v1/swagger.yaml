@@ -3,213 +3,137 @@ openapi: 3.0.1
 info:
   title: "Issue Tracker"
   version: 1.0.0
-  host: "https://blooming-dusk-00596.herokuapp.com"
 servers: 
   - url: https://blooming-dusk-00596.herokuapp.com
 paths:
-#  "/blogs":
-#    post:
-#      summary: Creates a blog
-#      tags:
-#      - Blogs
-#      consumes:
-#      - application/json
-#      - application/xml
-#      parameters:
-#      - name: blog
-#        in: body
-#        schema:
-#          type: object
-#          properties:
-#            title:
-#              type: string
-#            content:
-#              type: string
-#          required:
-#          - title
-#          - content
-#      responses:
-#        '201':
-#          description: blog created
-#        '422':
-#          description: invalid request
-#  "/blogs/{id}":
-#    get:
-#      summary: Retrieves a blog
-#      tags:
-#      - Blogs
-#      produces:
-#      - application/json
-#      - application/xml
-#      parameters:
-#      - name: id
-#        in: path
-#        type: string
-#        required: true
-#      responses:
-#        '200':
-#          description: blog found
-#          schema:
-#            type: object
-#            properties:
-#              id:
-#                type: integer
-#              title:
-#                type: string
-#              content:
-#                type: string
-#            required:
-#            - id
-#            - title
-#            - content
-#        '404':
-#          description: blog not found
-#        '406':
- #         description: unsupported accept header
-  "/issues/{issue_id}/comments":
-    parameters:
-    - name: issue_id
-      in: path
-      type: string
-      description: issue_id
-      required: true
-    get:
-      produces:
-      - "application/json"
-      summary: list comments
-      responses:
-        '200':
-          description: successful
-    post:
-      produces:
-      - "application/json"
-      summary: create comment
-      responses:
-        '200':
-  "/issues/{issue_id}/comments/new":
-    parameters:
-    - name: issue_id
-      in: path
-      type: string
-      description: issue_id
-      required: true
-    - name: api_key
-      in: path
-      type: string
-      description: api_key
-      required: true
-    get:
-      summary: new comment
-      responses:
-        '200':
-          description: successful
-  "/issues/{issue_id}/comments/{id}/edit":
-    parameters:
-    - name: issue_id
-      in: path
-      type: string
-      description: issue_id
-      required: true
-    - name: id
-      in: path
-      type: string
-      description: id
-      required: true
-    get:
-      summary: edit comment
-      responses:
-        '200':
-          description: successful
-  "/issues/{issue_id}/comments/{id}":
-    parameters:
-    - name: issue_id
-      in: path
-      type: string
-      description: issue_id
-      required: true
-    - name: id
-      in: path
-      type: string
-      description: id
-      required: true
-    get:
-      summary: show comment
-      responses:
-        '200':
-          description: successful
-    put:
-      summary: update comment
-      responses:
-        '200':
-          description: successful
-    delete:
-      summary: delete comment
-      responses:
-        '200':
-          description: successful
+
   "/issues":
     get:
-      summary: list issues
       tags:
-      - Issues
+      - "Issues"
+      summary: "Gets all the Issues"
+      parameters:
+      - name: id
+        in: path
+        schema:
+          type: integer
+        required: true
+      - in: query
+        name: type
+        description: Gets `Issue` objects by type
+        required: false
+        schema:
+          type: "string"
+          enum:
+            - Bug
+            - Enhancement
+            - Proposal
+            - Task
+        
+      - in: query
+        name: priority
+        description: Gets `Issue` objects by priority
+        required: false
+        schema:
+          type: "string"
+          enum:
+            - Trivial
+            - Minor
+            - Major
+            - Critical
+            - Blocker
+      - in: query
+        name: status
+        description: Gets `Issue` objects by status
+        required: false
+        schema:
+          type: "string"
+          enum:
+            - New
+            - Open
+            - On hold
+            - Resolved
+            - Duplicate
+            - Invalid
+            - Won't fix
+            - Closed
+            - New&Open
+      - in: query
+        name: assignee
+        description: Gets `Issue` objects by assignee
+        required: false
+        schema:
+          type: integer
+      - in: query
+        name: watcher
+        description: Gets `Issue` objects watched by a user
+        required: false
+        schema:
+          type: "string"
       responses:
         '200':
           description: successful
     post:
-      produces:
-      - "application/json"
       tags:
       - Issues
       summary: "Create a new Issue"
       description: ""
-      consumes:
-      - "application/x-www-form-urlencoded"
-      - "application/json"
       parameters:
       - name: "api_key"
         in: "header"
         required: true
-        type: "string"
+        schema:
+          type: "string"
       - in: query
-        type: string
+        schema:
+          type: "string"
         name: "Title"
         required: true
       - in: query
-        type: string
+        schema:
+          type: "string"
         name: "Description"
         required: false
-      - in: "formData"
+      - in: "query"
         name: Type
         description: Set the type of `Issue`
         required: false
-        type: string
-        enum:
-          - Bug
-          - Enhancement
-          - Proposal
-          - Task
-      - in: "formData"
+        schema:
+          type: "string"
+          enum:
+            - Bug
+            - Enhancement
+            - Proposal
+            - Task
+      - in: "query"
         name: Priority
         description: Set the priority of `Issue`
         required: false
-        type: string
-        enum:
-          - Trivial
-          - Minor
-          - Major
-          - Critical
-          - Blocker
-      - in: "formData"
+        schema:
+          type: "string"
+          enum:
+            - Trivial
+            - Minor
+            - Major
+            - Critical
+            - Blocker
+      - in: "query"
         name: assegnee
         description: Set the man in charge of `Issue`
         required: false
-        type: string
-        enum:
-          - Trivial
-          - Minor
-          - Major
-          - Critical
-          - Blocker
+        schema:
+          type: "string"
+          enum:
+            - Trivial
+            - Minor
+            - Major
+            - Critical
+            - Blocker
+      consumes:
+      - "application/x-www-form-urlencoded"
+      - "application/json"
+      produces:
+      - "application/json"  
       responses:
         '200':
           description: successful
@@ -227,7 +151,8 @@ paths:
     parameters:
     - name: id
       in: path
-      type: string
+      schema:
+          type: "string"
       description: id
       required: true
     get:
@@ -241,7 +166,8 @@ paths:
     parameters:
     - name: id
       in: path
-      type: string
+      schema:
+          type: "string"
       description: id
       required: true
     get:
@@ -277,7 +203,8 @@ paths:
     parameters:
     - name: id
       in: path
-      type: string
+      schema:
+        type: "string"
       description: id
       required: true
     post:
@@ -291,7 +218,8 @@ paths:
     parameters:
     - name: id
       in: path
-      type: string
+      schema:
+        type: "string"
       description: id
       required: true
     post:
@@ -305,7 +233,8 @@ paths:
     parameters:
     - name: id
       in: path
-      type: string
+      schema:
+        type: "string"
       description: id
       required: true
     put:
@@ -336,7 +265,8 @@ paths:
     parameters:
     - name: id
       in: path
-      type: string
+      schema:
+        type: "string"
       description: id
       required: true
     get:
@@ -348,7 +278,8 @@ paths:
     parameters:
     - name: id
       in: path
-      type: string
+      schema:
+        type: "string"
       description: id
       required: true
     get:
@@ -366,3 +297,94 @@ paths:
       responses:
         '200':
           description: successful
+
+
+  "/issues/{issue_id}/comments":
+    parameters:
+    - name: issue_id
+      in: path
+      schema:
+        type: "string"
+      description: issue_id
+      required: true
+    get:
+      produces:
+      - "application/json"
+      summary: list comments
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create comment
+      produces:
+      - "application/json"
+      responses:
+        '200':
+  "/issues/{issue_id}/comments/new":
+    parameters:
+    - name: issue_id
+      in: path
+      schema:
+        type: "string"
+      description: issue_id
+      required: true
+    - name: api_key
+      in: path
+      schema:
+        type: "string"
+      description: api_key
+      required: true
+    get:
+      summary: new comment
+      responses:
+        '200':
+          description: successful
+  "/issues/{issue_id}/comments/{id}/edit":
+    parameters:
+    - name: issue_id
+      in: path
+      schema:
+        type: "string"
+      description: issue_id
+      required: true
+    - name: id
+      in: path
+      schema:
+        type: "string"
+      description: id
+      required: true
+    get:
+      summary: edit comment
+      responses:
+        '200':
+          description: successful
+  "/issues/{issue_id}/comments/{id}":
+    parameters:
+    - name: issue_id
+      in: path
+      schema:
+        type: "string"
+      description: issue_id
+      required: true
+    - name: comment_id
+      in: path
+      schema:
+        type: "string"
+      description: comment_id
+      required: true
+    get:
+      summary: show comment
+      responses:
+        '200':
+          description: successful
+    put:
+      summary: update comment
+      responses:
+        '200':
+          description: successful
+    delete:
+      summary: delete comment
+      responses:
+        '200':
+          description: successful
+  
