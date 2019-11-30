@@ -1,68 +1,69 @@
 ---
 openapi: 3.0.1
 info:
-  title: API V1
-  version: v1
+  title: "Issue Tracker"
+  version: 1.0.0
+  host: "----HEROKU-URL----"
 paths:
-  "/blogs":
-    post:
-      summary: Creates a blog
-      tags:
-      - Blogs
-      consumes:
-      - application/json
-      - application/xml
-      parameters:
-      - name: blog
-        in: body
-        schema:
-          type: object
-          properties:
-            title:
-              type: string
-            content:
-              type: string
-          required:
-          - title
-          - content
-      responses:
-        '201':
-          description: blog created
-        '422':
-          description: invalid request
-  "/blogs/{id}":
-    get:
-      summary: Retrieves a blog
-      tags:
-      - Blogs
-      produces:
-      - application/json
-      - application/xml
-      parameters:
-      - name: id
-        in: path
-        type: string
-        required: true
-      responses:
-        '200':
-          description: blog found
-          schema:
-            type: object
-            properties:
-              id:
-                type: integer
-              title:
-                type: string
-              content:
-                type: string
-            required:
-            - id
-            - title
-            - content
-        '404':
-          description: blog not found
-        '406':
-          description: unsupported accept header
+#  "/blogs":
+#    post:
+#      summary: Creates a blog
+#      tags:
+#      - Blogs
+#      consumes:
+#      - application/json
+#      - application/xml
+#      parameters:
+#      - name: blog
+#        in: body
+#        schema:
+#          type: object
+#          properties:
+#            title:
+#              type: string
+#            content:
+#              type: string
+#          required:
+#          - title
+#          - content
+#      responses:
+#        '201':
+#          description: blog created
+#        '422':
+#          description: invalid request
+#  "/blogs/{id}":
+#    get:
+#      summary: Retrieves a blog
+#      tags:
+#      - Blogs
+#      produces:
+#      - application/json
+#      - application/xml
+#      parameters:
+#      - name: id
+#        in: path
+#        type: string
+#        required: true
+#      responses:
+#        '200':
+#          description: blog found
+#          schema:
+#            type: object
+#            properties:
+#              id:
+#                type: integer
+#              title:
+#                type: string
+#              content:
+#                type: string
+#            required:
+#            - id
+#            - title
+#            - content
+#        '404':
+#          description: blog not found
+#        '406':
+ #         description: unsupported accept header
   "/issues/{issue_id}/comments":
     parameters:
     - name: issue_id
@@ -71,15 +72,18 @@ paths:
       description: issue_id
       required: true
     get:
+      produces:
+      - "application/json"
       summary: list comments
       responses:
         '200':
           description: successful
     post:
+      produces:
+      - "application/json"
       summary: create comment
       responses:
         '200':
-          description: successful
   "/issues/{issue_id}/comments/new":
     parameters:
     - name: issue_id
@@ -87,6 +91,11 @@ paths:
       type: string
       description: issue_id
       required: true
+    - name: api_key
+      in: path
+      type: string
+      description: api_key
+      required:true
     get:
       summary: new comment
       responses:
@@ -126,11 +135,6 @@ paths:
       responses:
         '200':
           description: successful
-    patch:
-      summary: update comment
-      responses:
-        '200':
-          description: successful
     put:
       summary: update comment
       responses:
@@ -138,28 +142,6 @@ paths:
           description: successful
     delete:
       summary: delete comment
-      responses:
-        '200':
-          description: successful
-  "/issues/{issue_id}/comments/{id}/attachment":
-    parameters:
-    - name: issue_id
-      in: path
-      type: string
-      description: issue_id
-      required: true
-    - name: id
-      in: path
-      type: string
-      description: id
-      required: true
-    get:
-      summary: show_attachment comment
-      responses:
-        '200':
-          description: successful
-    post:
-      summary: create_attachment comment
       responses:
         '200':
           description: successful
@@ -172,12 +154,65 @@ paths:
         '200':
           description: successful
     post:
-      summary: create issue
+      produces:
+      - "application/json"
       tags:
       - Issues
+      summary: "Create a new Issue"
+      description: ""
+      consumes:
+      - "application/x-www-form-urlencoded"
+      - "application/json"
+      parameters:
+      - name: "api_key"
+        in: "header"
+        required: true
+        type: "string"
+      - in: query
+        type: string
+        name: "Title"
+        required: true
+      - in: query
+        type: string
+        name: "Description"
+        required: false
+      - in: "formData"
+        name: Type
+        description: Set the type of `Issue`
+        required: false
+        type: string
+        enum:
+          - Bug
+          - Enhancement
+          - Proposal
+          - Task
+      - in: "formData"
+        name: Priority
+        description: Set the priority of `Issue`
+        required: false
+        type: string
+        enum:
+          - Trivial
+          - Minor
+          - Major
+          - Critical
+          - Blocker
+      - in: "formData"
+        name: assegnee
+        description: Set the man in charge of `Issue`
+        required: false
+        type: string
+        enum:
+          - Trivial
+          - Minor
+          - Major
+          - Critical
+          - Blocker
       responses:
         '200':
           description: successful
+        405:
+          description: "Invalid input"
   "/issues/new":
     get:
       summary: new issue
@@ -214,13 +249,6 @@ paths:
       responses:
         '200':
           description: successful
-    patch:
-      summary: update issue
-      tags:
-      - Issues
-      responses:
-        '200':
-          description: successful
     put:
       summary: update issue
       tags:
@@ -238,27 +266,6 @@ paths:
   "/":
     get:
       summary: list issues
-      tags:
-      - Issues
-      responses:
-        '200':
-          description: successful
-  "/issues/{id}/attachment":
-    parameters:
-    - name: id
-      in: path
-      type: string
-      description: id
-      required: true
-    get:
-      summary: show_attachment issue
-      tags:
-      - Issues
-      responses:
-        '200':
-          description: successful
-    post:
-      summary: create_attachment issue
       tags:
       - Issues
       responses:
@@ -344,11 +351,6 @@ paths:
       required: true
     get:
       summary: show user
-      responses:
-        '200':
-          description: successful
-    patch:
-      summary: update user
       responses:
         '200':
           description: successful
