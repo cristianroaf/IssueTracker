@@ -8,6 +8,7 @@ servers:
 paths:
 
   "/api/issues":
+  
     get:
       tags:
       - "Issues"
