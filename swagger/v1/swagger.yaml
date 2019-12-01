@@ -4,14 +4,16 @@ info:
   title: "Issue Tracker"
   version: 1.0.0
 servers: 
-  - url: https://blooming-dusk-00596.herokuapp.com
+  - url: https://4e3e98d67aee4ae48c9cbc98fb74399f.vfs.cloud9.us-east-2.amazonaws.com/
 paths:
 
-  "/issues.json":
+  "/api/issues":
     get:
       tags:
       - "Issues"
       summary: "Gets all the Issues"
+      produces:
+        - application/json      
       parameters:
       - in: query
         name: type
