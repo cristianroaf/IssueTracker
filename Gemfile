@@ -13,7 +13,7 @@ gem 'omniauth-google-oauth2'
 gem 'bootstrap', '~> 4.3.1'
 gem 'jquery-rails'
 gem "aws-sdk-s3", require: false
-gem "paperclip", "~> 5.0.0.beta1"
+gem "paperclip", "~> 5.2.0"
 gem 'rswag'
 gem 'rspec-rails', '~> 3.5'
 gem 'rack-cors'
