@@ -4,7 +4,7 @@ info:
   title: "Issue Tracker"
   version: 1.0.0
 servers: 
-  - url: https://4e3e98d67aee4ae48c9cbc98fb74399f.vfs.cloud9.us-east-2.amazonaws.com/
+  - url: https://blooming-dusk-00596.herokuapp.com/
 paths:
 
   "/api/issues":
