@@ -13,11 +13,6 @@ paths:
       - "Issues"
       summary: "Gets all the Issues"
       parameters:
-      - name: id
-        in: path
-        schema:
-          type: integer
-        required: true
       - in: query
         name: type
         description: Gets `Issue` objects by type
@@ -152,9 +147,58 @@ paths:
     - name: id
       in: path
       schema:
-          type: "string"
-      description: id
+        type: "string"
       required: true
+    - name: "api_key"
+      in: "header"
+      required: true
+      schema:
+        type: "string"
+    - in: query
+      schema:
+        type: "string"
+      name: "Title"
+      required: true
+    - in: query
+      schema:
+        type: "string"
+      name: "Description"
+      required: false
+    - in: "query"
+      name: Type
+      description: Set the type of `Issue`
+      required: false
+      schema:
+        type: "string"
+        enum:
+          - Bug
+          - Enhancement
+          - Proposal
+          - Task
+    - in: "query"
+      name: Priority
+      description: Set the priority of `Issue`
+      required: false
+      schema:
+        type: "string"
+        enum:
+          - Trivial
+          - Minor
+          - Major
+          - Critical
+          - Blocker
+    - in: "query"
+      name: assegnee
+      description: Set the man in charge of `Issue`
+      required: false
+      schema:
+        type: "string"
+        enum:
+          - Trivial
+          - Minor
+          - Major
+          - Critical
+          - Blocker
     get:
       summary: edit issue
       tags:
@@ -168,8 +212,12 @@ paths:
       in: path
       schema:
           type: "string"
-      description: id
       required: true
+    - name: "api_key"
+      in: "header"
+      required: true
+      schema:
+        type: "string"
     get:
       summary: show issue
       tags:
@@ -191,22 +239,18 @@ paths:
       responses:
         '200':
           description: successful
-  "/":
-    get:
-      summary: list issues
-      tags:
-      - Issues
-      responses:
-        '200':
-          description: successful
   "/issues/{id}/vote":
     parameters:
     - name: id
       in: path
       schema:
         type: "string"
-      description: id
       required: true
+    - name: "api_key"
+      in: "header"
+      required: true
+      schema:
+        type: "string"
     post:
       summary: vote issue
       tags:
@@ -222,6 +266,11 @@ paths:
         type: "string"
       description: id
       required: true
+    - name: "api_key"
+      in: "header"
+      required: true
+      schema:
+        type: "string"
     post:
       summary: watch issue
       tags:
@@ -229,48 +278,15 @@ paths:
       responses:
         '200':
           description: successful
-  "/issues/{id}/status":
-    parameters:
-    - name: id
-      in: path
-      schema:
-        type: "string"
-      description: id
-      required: true
-    put:
-      summary: update_status issue
-      tags:
-      - Issues
-      responses:
-        '200':
-          description: successful
+          
+          
+          
+          
   "/users":
     get:
+      tags:
+      - Users
       summary: list users
-      responses:
-        '200':
-          description: successful
-    post:
-      summary: create user
-      responses:
-        '200':
-          description: successful
-  "/users/new":
-    get:
-      summary: new user
-      responses:
-        '200':
-          description: successful
-  "/users/{id}/edit":
-    parameters:
-    - name: id
-      in: path
-      schema:
-        type: "string"
-      description: id
-      required: true
-    get:
-      summary: edit user
       responses:
         '200':
           description: successful
@@ -283,17 +299,9 @@ paths:
       description: id
       required: true
     get:
+      tags:
+      - Users
       summary: show user
-      responses:
-        '200':
-          description: successful
-    put:
-      summary: update user
-      responses:
-        '200':
-          description: successful
-    delete:
-      summary: delete user
       responses:
         '200':
           description: successful
@@ -307,7 +315,10 @@ paths:
         type: "string"
       description: issue_id
       required: true
+      parameters:
     get:
+      tags:
+      - Comments
       produces:
       - "application/json"
       summary: list comments
@@ -315,6 +326,8 @@ paths:
         '200':
           description: successful
     post:
+      tags:
+      - Comments
       summary: create comment
       produces:
       - "application/json"
@@ -334,7 +347,15 @@ paths:
         type: "string"
       description: api_key
       required: true
+    - name: comment_text
+      in: path
+      schema:
+        type: string
+      required: true
+      
     get:
+      tags:
+      - Comments
       summary: new comment
       responses:
         '200':
@@ -353,7 +374,14 @@ paths:
         type: "string"
       description: id
       required: true
+    - name: comment_text
+      in: path
+      schema:
+        type: string
+      required: true
     get:
+      tags:
+      - Comments
       summary: edit comment
       responses:
         '200':
@@ -364,25 +392,29 @@ paths:
       in: path
       schema:
         type: "string"
-      description: issue_id
       required: true
-    - name: comment_id
+    - name: id
       in: path
       schema:
         type: "string"
-      description: comment_id
       required: true
     get:
+      tags:
+      - Comments
       summary: show comment
       responses:
         '200':
           description: successful
     put:
+      tags:
+      - Comments
       summary: update comment
       responses:
         '200':
           description: successful
     delete:
+      tags:
+      - Comments
       summary: delete comment
       responses:
         '200':
