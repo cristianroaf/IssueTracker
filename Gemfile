@@ -17,6 +17,7 @@ gem "paperclip", "~> 5.0.0.beta1"
 gem 'rswag'
 gem 'rspec-rails', '~> 3.5'
 gem 'rack-cors'
+gem 'devise_token_auth'
 
 group :development, :test do
   gem 'sqlite3', '1.4.1'

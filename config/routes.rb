@@ -22,4 +22,6 @@ Rails.application.routes.draw do
   
   put '/issues/:id/status' => "issues#update_status", as: :update_status
 
+  get '/api/issues' => "api#issues"
+  
 end

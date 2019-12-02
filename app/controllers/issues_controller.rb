@@ -77,7 +77,7 @@ class IssuesController < ApplicationController
       end
 
       format.html
-      format.json {render json: @issues, status: :ok, each_serializer: IssueIndexSerializer}
+      format.json {render json: @issues, status: :ok}
     end
   end
 
@@ -111,7 +111,7 @@ class IssuesController < ApplicationController
           @watcher.save
           @issue.increment!("Watchers")
           format.html { redirect_to @issue }
-          format.json { render json: @issue, status: :created, serializer: IssueSerializer }
+          format.json { render json: @issue, status: :created}
         else
           format.html { render :new }
           format.json { render json: @issue.errors, status: :unprocessable_entity }
@@ -201,7 +201,7 @@ class IssuesController < ApplicationController
     @issue = Issue.find(params[:id])
     respond_to do |format|
       if @issue.attachment.file?
-        format.json {render json: @issue, status: :ok, serializer: IssueattachmentSerializer}
+        format.json {render json: @issue, status: :ok}
       else
         format.json {render json: {}, status: :ok}
       end
@@ -216,7 +216,7 @@ class IssuesController < ApplicationController
     end
     respond_to do |format|
       if @issue.user.id == current_user.id
-        format.json {render json: @issue, status: :created, serializer: IssueattachmentSerializer}
+        format.json {render json: @issue, status: :created}
       else
         format.json {render json: {error: "Forbidden, you are not the creator of this issue"}, status: :forbidden}
       end
