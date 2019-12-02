@@ -251,6 +251,13 @@ paths:
           description: successful
     post:
       summary: create user
+      parameters:
+      - name: name
+        in: query
+      - email: emaiñ
+        in: query
+      - password: password
+      - in: query    
       responses:
         '200':
           description: successful
