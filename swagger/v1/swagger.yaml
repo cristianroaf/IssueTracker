@@ -18,13 +18,14 @@ security:
   - ApiKeyAuth: []     # use the same name as under securitySchemes
 
 paths:
-
+  "/api/issues":
+  
   "/api/issues":
   
     get:
       description: Gets the `Issue` object by the desired category 
       tags:
-      - "Issues"
+      - Done
       summary: "Gets all the Issues"
       produces:
         - application/json      
@@ -87,7 +88,7 @@ paths:
           
     post:
       tags:
-      - Issues
+      - Done
       summary: "Create a new Issue"
       description: ""
       parameters:
@@ -157,6 +158,177 @@ paths:
           description: "There is no user with such api_key"
         '422':
           description: "Semantic erros in the request"
+
+  "/api/issues/{id}":
+    parameters:
+    - name: id
+      in: path
+      schema:
+          type: "string"
+      description: id
+      required: true
+    get:
+      summary: Get 'Issue' info from ID
+      tags:
+      - To-do
+      responses:
+        '200':
+          description: successful
+    put:
+      summary: update issue
+      tags:
+      - To-do
+      responses:
+        '200':
+          description: successful
+    delete:
+      summary: delete issue
+      tags:
+      - To-do
+      responses:
+        '200':
+          description: successful
+
+  "/api/issues/{id}/vote":
+    parameters:
+    - name: id
+      in: path
+      schema:
+        type: "string"
+      description: id
+      required: true
+    post:
+      summary: vote issue
+      tags:
+      - To-do
+      responses:
+        '200':
+          description: successful
+  "/api/issues/{id}/unvote":
+    parameters:
+    - name: id
+      in: path
+      schema:
+        type: "string"
+      description: id
+      required: true
+    post:
+      summary: vote issue
+      tags:
+      - To-do
+      responses:
+        '200':
+          description: successful
+  "/api/issues/{id}/watch":
+    parameters:
+    - name: id
+      in: path
+      schema:
+        type: "string"
+      description: id
+      required: true
+    post:
+      summary: watch issue
+      tags:
+      - To-do
+      responses:
+        '200':
+          description: successful
+          
+  "/api/issues/{id}/unwatch":
+    parameters:
+    - name: id
+      in: path
+      schema:
+        type: "string"
+      description: id
+      required: true
+    post:
+      summary: watch issue
+      tags:
+      - To-do
+      responses:
+        '200':
+          description: successful
+          
+  "/api/issues/{id}/status":
+    parameters:
+    - name: id
+      in: path
+      schema:
+        type: "string"
+      description: id
+      required: true
+    put:
+      summary: update_status issue
+      tags:
+      - To-do
+      responses:
+        '200':
+          description: successful
+
+  "/api/issues/{issue_id}/comments":
+    parameters:
+    - name: issue_id
+      in: path
+      schema:
+        type: "string"
+      description: issue_id
+      required: true
+    get:
+      tags:
+      - To-do
+      produces:
+      - "application/json"
+      summary: list comments
+      responses:
+        '200':
+          description: successful
+    post:
+      tags:
+      - To-do
+      summary: create comment
+      produces:
+      - "application/json"
+      responses:
+        '200':
+
+  "/issues/{issue_id}/comments/{id}":
+    parameters:
+    - name: issue_id
+      in: path
+      schema:
+        type: "string"
+      description: issue_id
+      required: true
+    - name: comment_id
+      in: path
+      schema:
+        type: "string"
+      description: comment_id
+      required: true
+    get:
+      tags:
+      - To-do
+      summary: Get specific comment
+      responses:
+        '200':
+          description: successful
+    put:
+      tags:
+      - To-do
+      summary: update comment
+      responses:
+        '200':
+          description: successful
+    delete:
+      tags:
+      - To-do
+      summary: delete comment
+      responses:
+        '200':
+          description: successful
+  
   "/issues/new":
     get:
       summary: new issue
@@ -509,4 +681,4 @@ paths:
       responses:
         '200':
           description: successful
-  
+
