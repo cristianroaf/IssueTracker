@@ -86,6 +86,38 @@ class ApiController < ApplicationController
       
     end
     
+  def getissue
+  end
+  def editissue
+  end
+  def deleteissue
+  end
+  
+  def vote
+  end
+  def unvote
+  end
+  def watch
+  end
+  def unwatch
+  end
+  
+  def editstatus
+  end
+  
+  def getcomments
+  end
+  def newcomment
+  end
+  
+  def getcomment
+  end
+  def editcomment
+  end
+  def deletecomment
+  end
+    
+    
     def issue_params
       params.permit(:Title, :Description, :Type, :Priority, :Status, :asignee_id, :user_id, :attachment)
     end
