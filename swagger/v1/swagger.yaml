@@ -5,6 +5,18 @@ info:
   version: 1.0.0
 servers: 
   - url: https://blooming-dusk-00596.herokuapp.com/
+  - url: https://4e3e98d67aee4ae48c9cbc98fb74399f.vfs.cloud9.us-east-2.amazonaws.com/
+
+components:
+  securitySchemes:
+    ApiKeyAuth:        # arbitrary name for the security scheme
+      type: apiKey
+      in: query       # can be "header", "query" or "cookie"
+      name: api_key  # name of the header, query parameter or cookie
+# 2) Apply the API key globally to all operations
+security:
+  - ApiKeyAuth: []     # use the same name as under securitySchemes
+
 paths:
 
   "/api/issues":
@@ -78,11 +90,6 @@ paths:
       summary: "Create a new Issue"
       description: ""
       parameters:
-      - name: "api_key"
-        in: "header"
-        required: true
-        schema:
-          type: "string"
       - in: query
         schema:
           type: "string"
@@ -117,17 +124,26 @@ paths:
             - Critical
             - Blocker
       - in: "query"
-        name: assegnee
-        description: Set the man in charge of `Issue`
+        name: Status
+        description: Set the status of `Issue`
         required: false
         schema:
           type: "string"
           enum:
-            - Trivial
-            - Minor
-            - Major
-            - Critical
-            - Blocker
+            - New
+            - Open
+            - On hold
+            - Resolved
+            - Duplicate
+            - Invalid
+            - Won't fix
+            - Closed
+      - in: "query"
+        name: asignee_id
+        description: Assigns the `Issue` to the desired user
+        required: false
+        schema:
+          type: "int"
       consumes:
       - "application/x-www-form-urlencoded"
       - "application/json"
