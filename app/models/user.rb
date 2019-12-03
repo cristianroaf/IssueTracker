@@ -20,10 +20,9 @@ class User < ApplicationRecord
             user = User.create(name: data['name'],
             email: data['email'],
             password: Devise.friendly_token[0,20],
-            authentication_token: dataAuth['token']
+            authentication_token: Devise.friendly_token[0,20]
             )
         end
-        puts(user.authentication_token)
         user
     end
 end
