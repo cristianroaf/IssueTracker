@@ -66,6 +66,7 @@ class ApiController < ApplicationController
       else
         @issue = Issue.new(issue_params)
         @issue.user_id = user.id
+        @issue.status = "New"
         respond_to do |format|
           if (issue_params.has_key?(:asignee_id) && issue_params[:asignee_id] != "" && !User.exists?(id: issue_params[:asignee_id]))
               format.json {render json: {"error":"User with id="+issue_params[:asignee_id]+" does not exist"}, status: :unprocessable_entity}
