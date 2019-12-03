@@ -14,6 +14,7 @@ td {
 <table class="table table-hover ">
   <thead class ="thead-dark">
     <tr>
+      <th> Id </th>
       <th>Name</th>
       <th>Email</th>
       <th>API-KEY:</th>
@@ -24,6 +25,7 @@ td {
   <tbody>
     <% @users.each do |user| %>
       <tr>
+        <td><%= user.id %></td>
         <td><%= user.name %></td>
         <td><%= user.email %></td>
         <td><%= user.authentication_token %></td>

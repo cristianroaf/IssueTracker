@@ -55,21 +55,31 @@ class ApiController < ApplicationController
       api_key = params[:api_key]
       params.delete :api_key
       user = User.where(["authentication_token = ?", api_key]).first
-      @issue = Issue.new(issue_params)
-      @issue.user_id = user.id
-      respond_to do |format|
-        if (issue_params.has_key?(:asignee_id) && issue_params[:asignee_id] != "" && !User.exists?(id: issue_params[:asignee_id]))
-            format.json {render json: {"error":"User with id="+issue_params[:asignee_id]+" does not exist"}, status: :unprocessable_entity}
-        else
-          if @issue.save
-            @watcher = Watcher.new
-            @watcher.user_id = user.id
-            @watcher.issue_id = @issue.id
-            @watcher.save
-            @issue.increment!("Watchers")
-            format.json { render json: @issue, status: :created}
+
+      if user.nil?
+        # No existe usuario con ese token
+        payload = {
+          error: "There is no user with such api_key; please visit /users",
+          status: 401 
+        }
+        render :json => payload, :status => 401
+      else
+        @issue = Issue.new(issue_params)
+        @issue.user_id = user.id
+        respond_to do |format|
+          if (issue_params.has_key?(:asignee_id) && issue_params[:asignee_id] != "" && !User.exists?(id: issue_params[:asignee_id]))
+              format.json {render json: {"error":"User with id="+issue_params[:asignee_id]+" does not exist"}, status: :unprocessable_entity}
           else
-            format.json { render json: @issue.errors, status: :unprocessable_entity }
+            if @issue.save
+              @watcher = Watcher.new
+              @watcher.user_id = user.id
+              @watcher.issue_id = @issue.id
+              @watcher.save
+              @issue.increment!("Watchers")
+              format.json { render json: @issue, status: :created}
+            else
+              format.json { render json: @issue.errors, status: :unprocessable_entity }
+            end
           end
         end
       end

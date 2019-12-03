@@ -151,10 +151,12 @@ paths:
       produces:
       - "application/json"  
       responses:
-        '200':
-          description: successful
-        405:
-          description: "Invalid input"
+        '201':
+          description: "Issue created succesfully"
+        '401':
+          description: "There is no user with such api_key"
+        '422':
+          description: "Semantic erros in the request"
   "/issues/new":
     get:
       summary: new issue
