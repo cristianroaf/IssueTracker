@@ -21,8 +21,31 @@ Rails.application.routes.draw do
   post '/issues/:id/watch' => "issues#watch", as: :watch
   
   put '/issues/:id/status' => "issues#update_status", as: :update_status
+  
+  
+
+  #-----------API-------------------
 
   get '/api/issues' => "api#issues"
   post '/api/issues' => "api#newissue"
+  
+  get '/api/issues/:issue_id' => "api#getissue"
+  put '/api/issues/:issue_id' => "api#editissue"
+  delete '/api/issues/:issue_id' => "api#deleteissue"
+  
+  post '/api/issues/:issue_id/vote' => "api#vote"
+  post '/api/issues/:issue_id/unvote' => "api#unvote"
+  post '/api/issues/:issue_id/watch' => "api#watch"
+  post '/api/issues/:issue_id/unwatch' => "api#unwatch"
+  
+  put '/api/issues/:issue_id/status' => "api#editstatus"
+  
+  get '/api/issues/:issue_id/comments' => "api#getcomments"
+  post '/api/issues/:issue_id/comments' => "api#newcomment"
+  
+  get '/api/issues/:issue_id/comments/:id' => "api#getcomment"
+  put '/api/issues/:issue_id/comments/:id' => "api#editcomment"
+  delete '/api/issues/:issue_id/comments/:id' => "api#deletecomment"
+  
   
 end

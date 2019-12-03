@@ -18,8 +18,7 @@ security:
   - ApiKeyAuth: []     # use the same name as under securitySchemes
 
 paths:
-  "/api/issues":
-  
+
   "/api/issues":
   
     get:
