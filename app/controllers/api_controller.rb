@@ -87,6 +87,7 @@ class ApiController < ApplicationController
     end
     
   def getissue
+    
   end
   def editissue
   end
@@ -103,6 +104,12 @@ class ApiController < ApplicationController
   end
   
   def editstatus
+      respond_to do |format|
+      @issue_to_update = Issue.find(params[:id])
+      @issue_to_update.update_attribute("Status", params[:status])
+      format.json { render json: @issue_to_update, status: :ok }
+    end
+    
   end
   
   def getcomments

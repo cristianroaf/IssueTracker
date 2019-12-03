@@ -18,16 +18,12 @@ security:
   - ApiKeyAuth: []     # use the same name as under securitySchemes
 
 paths:
-
   "/api/issues":
-  
     get:
       description: Gets the `Issue` object by the desired category 
       tags:
       - Done
       summary: "Gets all the Issues"
-      produces:
-        - application/json      
       parameters:
       - in: query
         name: type
@@ -124,32 +120,13 @@ paths:
             - Major
             - Critical
             - Blocker
-      - in: "query"
-        name: Status
-        description: Set the status of `Issue`
-        required: false
-        schema:
-          type: "string"
-          enum:
-            - New
-            - Open
-            - On hold
-            - Resolved
-            - Duplicate
-            - Invalid
-            - Won't fix
-            - Closed
+
       - in: "query"
         name: asignee_id
         description: Assigns the `Issue` to the desired user
         required: false
         schema:
           type: integer
-      consumes:
-      - "application/x-www-form-urlencoded"
-      - "application/json"
-      produces:
-      - "application/json"  
       responses:
         '201':
           description: "Issue created succesfully"
@@ -157,7 +134,38 @@ paths:
           description: "There is no user with such api_key"
         '422':
           description: "Semantic erros in the request"
-
+          
+  "/api/issues/{id}/status":
+    parameters:
+    - name: id
+      in: path
+      schema:
+          type: "string"
+      description: id
+      required: true
+    - in: "query"
+      name: Status
+      description: Set the status of `Issue`
+      required: false
+      schema:
+        type: "string"
+        enum:
+          - New
+          - Open
+          - On hold
+          - Resolved
+          - Duplicate
+          - Invalid
+          - Won't fix
+          - Closed
+    put:
+      summary: Update status
+      tags:
+      - "Done"
+      responses:
+        '200':
+          description: successful
+            
   "/api/issues/{id}":
     parameters:
     - name: id
@@ -249,22 +257,6 @@ paths:
       responses:
         '200':
           description: successful
-          
-  "/api/issues/{id}/status":
-    parameters:
-    - name: id
-      in: path
-      schema:
-        type: "string"
-      description: id
-      required: true
-    put:
-      summary: update_status issue
-      tags:
-      - To-do
-      responses:
-        '200':
-          description: successful
 
   "/api/issues/{issue_id}/comments":
     parameters:
@@ -277,8 +269,6 @@ paths:
     get:
       tags:
       - To-do
-      produces:
-      - "application/json"
       summary: list comments
       responses:
         '200':
@@ -287,12 +277,11 @@ paths:
       tags:
       - To-do
       summary: create comment
-      produces:
-      - "application/json"
       responses:
         '200':
+          description: successful
 
-  "/issues/{issue_id}/comments/{id}":
+  "/api/issues/{issue_id}/comments/{id}":
     parameters:
     - name: issue_id
       in: path
@@ -300,7 +289,7 @@ paths:
         type: "string"
       description: issue_id
       required: true
-    - name: comment_id
+    - name: id
       in: path
       schema:
         type: "string"
@@ -328,66 +317,7 @@ paths:
         '200':
           description: successful
   
-  "/issues/new":
-    get:
-      summary: new issue
-      tags:
-      - Issues
-      responses:
-        '200':
-          description: successful
-  "/issues/{id}/edit":
-    parameters:
-    - name: id
-      in: path
-      schema:
-          type: "string"
-      description: id
-      required: true
-    get:
-      summary: edit issue
-      tags:
-      - Issues
-      responses:
-        '200':
-          description: successful
-  "/issues/{id}":
-    parameters:
-    - name: id
-      in: path
-      schema:
-          type: "string"
-      description: id
-      required: true
-    get:
-      summary: show issue
-      tags:
-      - Issues
-      responses:
-        '200':
-          description: successful
-    put:
-      summary: update issue
-      tags:
-      - Issues
-      responses:
-        '200':
-          description: successful
-    delete:
-      summary: delete issue
-      tags:
-      - Issues
-      responses:
-        '200':
-          description: successful
-  "/":
-    get:
-      summary: list issues
-      tags:
-      - Issues
-      responses:
-        '200':
-          description: successful
+
   "/issues/{id}/vote":
     parameters:
     - name: id
@@ -433,120 +363,6 @@ paths:
       responses:
         '200':
           description: successful
-  "/users":
-    get:
-      description: Gets the list of `Users` of the Issue Tracker
-      tags:
-      - Users
-      summary: list users
-      produce:
-        - "application/json" 
-      responses:
-        '200':
-          description: successful
-    post:
-      description: Creates a new `User` for the Issue Tracker
-      tags:
-      - Users
-      summary: create user
-      parameters:
-      - name: name
-        description: name of the new `User`
-        in: query
-        schema:
-          type: string
-        required: true
-      - name: email
-        description: email of the new `User` of the Issue Tracker
-        schema:
-          type: string
-        in: query
-        required: true
-      - name: password
-        description: password for the login
-        schema:
-          type: string
-        in: query
-        required: true
-      responses:
-        '200':
-          description: successful
-  "/users/new":
-    get:
-      tags:
-      - Users
-      summary: new user
-      responses:
-        '200':
-          description: successful
-  "/users/{user_id}/edit":
-    parameters:
-    - name: user_id
-      in: path
-      schema:
-        type: "string"
-      description: user_id to identify the `User`
-      required: true
-    get:
-      description: Get the `User` identified by user_id 
-      tags:
-      - Users
-      summary: edit user
-      responses:
-        '200':
-          description: successful
-  "/users/{user_id}":
-    parameters:
-    - name: user_id
-      in: path
-      schema:
-        type: "string"
-      description: user_id to identify the `User`
-      required: true
-    get:
-      description: Get the `User` identified by user_id
-      tags:
-      - Users
-      summary: show user
-      responses:
-        '200':
-          description: successful
-    put:
-      parameters:
-      - name: name
-        description: name of the new `User`
-        in: query
-        schema:
-          type: string
-        required: false
-      - name: email
-        description: email of the new `User` of the Issue Tracker
-        schema:
-          type: string
-        in: query
-        required: false
-      - name: password
-        description: password for the login
-        schema:
-          type: string
-        in: query
-        required: false
-      description: Update the `User` identified by user_id
-      tags:
-      - Users
-      summary: update user
-      responses:
-        '200':
-          description: successful
-    delete:
-      description: Delete the `User` identified by user_id
-      tags:
-      - Users
-      summary: delete user
-      responses:
-        '200':
-          description: successful
-
 
   "/issues/{issue_id}/comments":
     parameters:
@@ -560,8 +376,6 @@ paths:
       description: Gets the comments of an Issue identified by issue_id
       tags:
       - Comments
-      produces:
-      - "application/json"
       summary: list comments
       responses:
         '200':
@@ -577,8 +391,6 @@ paths:
       tags:
       - Comments
       summary: create comment
-      produces:
-      - "application/json"
       responses:
         '200':
           description: successful
@@ -680,4 +492,3 @@ paths:
       responses:
         '200':
           description: successful
-
