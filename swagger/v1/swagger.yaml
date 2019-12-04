@@ -6,6 +6,7 @@ info:
 servers: 
   - url: https://blooming-dusk-00596.herokuapp.com/
   - url: https://4e3e98d67aee4ae48c9cbc98fb74399f.vfs.cloud9.us-east-2.amazonaws.com/
+  - url: http://localhost:3000/
 
 components:
   securitySchemes:
@@ -121,11 +122,11 @@ paths:
         schema:
           type: "string"
         name: "Description"
-        required: false
+        required: true
       - in: "query"
         name: Type
         description: Set the type of `Issue`
-        required: false
+        required: true
         schema:
           type: "string"
           enum:
@@ -136,7 +137,7 @@ paths:
       - in: "query"
         name: Priority
         description: Set the priority of `Issue`
-        required: false
+        required: true
         schema:
           type: "string"
           enum:
@@ -230,11 +231,11 @@ paths:
         schema:
           type: "string"
         name: "Description"
-        required: false
+        required: true
       - in: "query"
         name: Type
         description: Set the type of `Issue`
-        required: false
+        required: true
         schema:
           type: "string"
           enum:
@@ -245,7 +246,7 @@ paths:
       - in: "query"
         name: Priority
         description: Set the priority of `Issue`
-        required: false
+        required: true
         schema:
           type: "string"
           enum:
@@ -290,15 +291,21 @@ paths:
       in: path
       schema:
         type: "string"
-      description: id
+      description: "id issue"
       required: true
     post:
-      summary: vote issue
+      summary: "vote an issue"
       tags:
-      - To-do
+      - Done
       responses:
-        '200':
-          description: successful
+        '201':
+          description: "Issue has been voted"
+        '401':
+          description: "There is no user with such api_key"
+        '422':
+          description: "There is no issue with such id"
+        '422':
+          description: "Ya has votado la issue con ese id"
           
   "/api/issues/{id}/unvote":
     parameters:
@@ -306,15 +313,21 @@ paths:
       in: path
       schema:
         type: "string"
-      description: id
+      description: "id issue"
       required: true
     post:
-      summary: vote issue
+      summary: "unvote an issue"
       tags:
-      - To-do
+      - Done
       responses:
         '200':
-          description: successful
+          description: "Issue has been voted"
+        '401':
+          description: "There is no user with such api_key"
+        '422':
+          description: "There is no issue with such id"
+        '422':
+          description: "No has votado la issue con ese id"
           
   "/api/issues/{id}/watch":
     parameters:
@@ -322,15 +335,21 @@ paths:
       in: path
       schema:
         type: "string"
-      description: id
+      description: id issue
       required: true
     post:
-      summary: watch issue
+      summary: watch an issue
       tags:
-      - To-do
+      - Done
       responses:
         '200':
           description: successful
+        '401':
+          description: "There is no user with such api_key"
+        '422':
+          description: "There is no issue with such id"
+        '422':
+          description: "Ya has watcheado la issue con ese id"
           
   "/api/issues/{id}/unwatch":
     parameters:
@@ -338,38 +357,65 @@ paths:
       in: path
       schema:
         type: "string"
-      description: id
+      description: id issue
       required: true
     post:
-      summary: watch issue
+      summary: unwatch an issue
       tags:
-      - To-do
+      - Done
       responses:
         '200':
           description: successful
+        '401':
+          description: "There is no user with such api_key"
+        '422':
+          description: "There is no issue with such id"
+        '422':
+          description: "No estas watcheando la issue con ese id"
 
   "/api/issues/{issue_id}/comments":
-    parameters:
-    - name: issue_id
-      in: path
-      schema:
-        type: "string"
-      description: issue_id
-      required: true
     get:
+      parameters:
+      - name: issue_id
+        in: path
+        schema:
+          type: "string"
+        description: issue_id
+        required: true
       tags:
-      - To-do
+        - Done
       summary: list comments
       responses:
         '200':
           description: successful
+        '401':
+          description: There is no user with such api_key; please visit /users
+        '404':
+          description: The issue does not exist
     post:
+      parameters:
+      - name: issue_id
+        in: path
+        schema:
+          type: "string"
+        description: issue_id
+        required: true
+      - name: text
+        in: query
+        schema:
+          type: "string"
+        description: Write the body of the new `comment` of the `Issue` identified by issue_id
+        required: true
       tags:
-      - To-do
-      summary: create comment
+        - Done
+      summary: Create comment 
       responses:
-        '200':
-          description: successful
+        '201':
+          description: "Comment created succesfully"
+        '401':
+          description: "There is no user with such api_key"
+        '404':
+          description: "Could not find an issue with such issue_id"
 
   "/api/issues/{issue_id}/comments/{id}":
     parameters:
@@ -387,22 +433,45 @@ paths:
       required: true
     get:
       tags:
-      - To-do
+      - Done
       summary: Get specific comment
       responses:
         '200':
           description: successful
+        '401':
+          description: There is no user with such api_key; please visit /users
+        '404':
+          description: The issue or the comment does not exist
     put:
+      parameters:
+        - name: text
+          in: query
+          schema:
+            type: "string"
+          description: Write the new body of the `comment` of the `Issue` identified by issue_id
+          required: true          
       tags:
-      - To-do
+        - Done
       summary: update comment
       responses:
         '200':
-          description: successful
+          description: Comment deleted successfully
+        '401':
+          description: There is no user with such api_key; please visit /users
+        '403':
+          description: You are not the creator of this issue
+        '404':
+          description: The issue or the comment does not exist
     delete:
       tags:
-      - To-do
+      - Done
       summary: delete comment
       responses:
         '200':
-          description: successful
+          description: Comment deleted successfully
+        '401':
+          description: There is no user with such api_key; please visit /users
+        '403':
+          description: You are not the creator of this issue
+        '404':
+          description: The issue or the comment does not exist
