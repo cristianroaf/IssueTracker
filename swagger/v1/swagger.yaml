@@ -22,7 +22,7 @@ paths:
   "/api/issues":
     get:
       tags:
-      - Done
+      - Issues
       summary: Gets the `Issue` object applying multiple filters and sort
       parameters:
       - in: query
@@ -110,7 +110,7 @@ paths:
           
     post:
       tags:
-      - Done
+      - Issues
       summary: "Creates a new Issue with the specified parameters"
       parameters:
       - in: query
@@ -187,7 +187,7 @@ paths:
     put:
       summary: Update status
       tags:
-      - "Done"
+      - Issues
       responses:
         '200':
           description: successful
@@ -209,7 +209,7 @@ paths:
     get:
       summary: Gets an Issue object identified by ID
       tags:
-      - Done
+      - Issues
       responses:
         '200':
           description: successful
@@ -220,7 +220,7 @@ paths:
     put:
       summary: update issue
       tags:
-      - Done
+      - Issues
       parameters:
       - in: query
         schema:
@@ -274,7 +274,7 @@ paths:
     delete:
       summary: delete issue
       tags:
-      - Done
+      - Issues
       responses:
         '200':
           description: Successfully deleted Issue
@@ -296,7 +296,7 @@ paths:
     post:
       summary: "vote an issue"
       tags:
-      - Done
+      - Vote
       responses:
         '201':
           description: "Issue has been voted"
@@ -318,7 +318,7 @@ paths:
     post:
       summary: "unvote an issue"
       tags:
-      - Done
+      - Vote
       responses:
         '200':
           description: "Issue has been voted"
@@ -340,7 +340,7 @@ paths:
     post:
       summary: watch an issue
       tags:
-      - Done
+      - Watch
       responses:
         '200':
           description: successful
@@ -362,7 +362,7 @@ paths:
     post:
       summary: unwatch an issue
       tags:
-      - Done
+      - Watch
       responses:
         '200':
           description: successful
@@ -380,14 +380,15 @@ paths:
         in: path
         schema:
           type: "string"
-        description: issue_id
+        description: id of an existing issue
         required: true
       tags:
-        - Done
-      summary: list comments
+        - Comments
+      description: Get the comments of an specific issue identified by issue_id
+      summary: Get the comments of an issue
       responses:
         '200':
-          description: successful
+          description: Successful
         '401':
           description: There is no user with such api_key; please visit /users
         '404':
@@ -398,7 +399,7 @@ paths:
         in: path
         schema:
           type: "string"
-        description: issue_id
+        description: id of an existing issue
         required: true
       - name: text
         in: query
@@ -407,8 +408,9 @@ paths:
         description: Write the body of the new `comment` of the `Issue` identified by issue_id
         required: true
       tags:
-        - Done
-      summary: Create comment 
+        - Comments
+      description: Creates a new comment on the issue identified by issue_id
+      summary: Creates a new comment
       responses:
         '201':
           description: "Comment created succesfully"
@@ -423,21 +425,22 @@ paths:
       in: path
       schema:
         type: "string"
-      description: issue_id
+      description: id of an existing issue
       required: true
     - name: id
       in: path
       schema:
         type: "string"
-      description: comment_id
+      description: id of an existing comment of the issue identified by issue_id
       required: true
     get:
       tags:
-      - Done
-      summary: Get specific comment
+      - Comments
+      description: Gets and specific comment of the issue identified by issue_id
+      summary: Gets an issue comment
       responses:
         '200':
-          description: successful
+          description: Successful
         '401':
           description: There is no user with such api_key; please visit /users
         '404':
@@ -451,8 +454,9 @@ paths:
           description: Write the new body of the `comment` of the `Issue` identified by issue_id
           required: true          
       tags:
-        - Done
-      summary: update comment
+        - Comments
+      summary: Updates the content of an issue comment
+      description: Updates the content of the comment identified by id of the issue identified by issue_id
       responses:
         '200':
           description: Comment deleted successfully
@@ -464,8 +468,9 @@ paths:
           description: The issue or the comment does not exist
     delete:
       tags:
-      - Done
-      summary: delete comment
+      - Comments
+      summary: Deletes a comment
+      description: Deletes the comment identified by id of the issue identified by issue_id
       responses:
         '200':
           description: Comment deleted successfully
