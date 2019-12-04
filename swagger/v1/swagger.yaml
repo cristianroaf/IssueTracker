@@ -14,6 +14,81 @@ components:
       type: apiKey
       in: query       # can be "header", "query" or "cookie"
       name: api_key  # name of the header, query parameter or cookie
+
+
+  schemas:
+    Issues:
+      properties:
+        id:
+          type: integer
+          example: 1
+        Title:
+          type: string
+          example: Problems with Swagger
+        Description:
+          type: string
+          example: Here explain the problem
+        Type:          
+          type: "string"
+          enum:
+            - Bug
+            - Enhancement
+            - Proposal
+            - Task
+        Priority:          
+          type: "string"
+          enum:
+            - Trivial
+            - Minor
+            - Major
+            - Critical
+            - Blocker
+        Status:          
+          type: "string"
+          enum:
+            - New&Open
+            - On hold
+            - Resolved
+            - Duplicate
+            - Invalid
+            - Won't fix
+            - Closed
+            - New&Open
+        user_id:
+          type: integer
+          example: 1
+        assignee_id:
+          type: integer
+          example: 2
+        Votes:
+          type: integer
+          example: 3
+        Watchers:
+          type: integer
+          example: 4
+        created_at:
+          type: string
+          example: "2019-12-03T08:19:23.477Z"
+        updated_at:
+          type: "2019-12-03T08:19:23.477Z"
+    Comment:
+      properties:
+        id:
+          type: integer
+          example: 1
+        text:
+          type: string
+          example: new comment
+        user_id:
+          type: integer
+          example: 1
+        created_at:
+          type: string
+        updated_at:
+          type: string
+
+
+
 # 2) Apply the API key globally to all operations
 security:
   - ApiKeyAuth: []     # use the same name as under securitySchemes
@@ -441,13 +516,15 @@ paths:
       responses:
         '200':
           description: Successful
+          schema:
+            $ref: "#/components/schemas/Comments"
         '401':
           description: There is no user with such api_key; please visit /users
         '404':
           description: The issue or the comment does not exist
     put:
       parameters:
-        - name: text
+        - name: text  
           in: query
           schema:
             type: "string"

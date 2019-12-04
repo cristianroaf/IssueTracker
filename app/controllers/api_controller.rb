@@ -667,7 +667,7 @@ class ApiController < ApplicationController
           respond_to do |format|
             if @comment.user_id == user.id
               payload = {
-                error: "Comment deleted",
+                message: "Comment deleted",
                 status: 200 
               }
               format.json {render :json => payload, status: :ok}
