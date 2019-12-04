@@ -282,11 +282,62 @@ class ApiController < ApplicationController
   end
   
   def vote
+    respond_to do |format|
+      api_key = params[:api_key]
+      params.delete :api_key
+      user = User.where(["authentication_token = ?", api_key]).first
+      @issue = Issue.where(["id = ?", params[:id]]).first
+      if user.nil?
+        payload = {
+          error: "There is no user with such api_key; please visit /users",
+          status: 401 
+        }
+        format.json {render :json => payload, :status => 401}
+      elsif  @issue.nil?
+        payload = {
+          error: "There is no issue such with id; please visit /issues",
+          status: 422
+        }
+      end
+      @vote = Vote.new(params[:id]) ########## is this correct?
+      if @vote.update(vote_params)
+        format.json { render :show, status: :ok, location: @vote }
+      else
+        format.json { render json: @vote.errors, status: :unprocessable_entity }
+      end
+    end
   end
+      
   def unvote
+    respond_to do |format|
+      api_key = params[:api_key]
+      params.delete :api_key
+      user = User.where(["authentication_token = ?", api_key]).first
+      @issue = Issue.where(["id = ?", params[:id]]).first
+      if user.nil?
+        payload = {
+          error: "There is no user with such api_key; please visit /users",
+          status: 401 
+        }
+        format.json {render :json => payload, :status => 401}
+      elsif  @issue.nil?
+        payload = {
+          error: "There is no issue such with id; please visit /issues",
+          status: 422
+        }
+      end
+      @vote = Vote.destroy(params[:id]) ########## como se hace
+      if @vote.update(vote_params)
+        format.json { render :show, status: :ok, location: @vote }
+      else
+        format.json { render json: @vote.errors, status: :unprocessable_entity }
+      end
+    end
   end
+  
   def watch
   end
+  
   def unwatch
   end
   
@@ -300,7 +351,6 @@ class ApiController < ApplicationController
       @issue = Issue.where(["id = ?", params[:issue_id]]).first
       @comment = @issue.comments
       if user.nil?
-        # No existe usuario con ese token
         payload = {
           error: "There is no user with such api_key; please visit /users",
           status: 401 
@@ -315,15 +365,41 @@ class ApiController < ApplicationController
       else  ## ######################################################################### Que hace esto?
          params.delete :issue_id
         if issue.update(issue_params.merge(:Status => issue.Status))
-          format.json { render json: comment, status: :ok}
+          format.json { render json: comments, status: :ok}
         else
-          format.json { render json: comment.errors, status: :unprocessable_entity}
+          format.json { render json: comments.errors, status: :unprocessable_entity}
         end
       end
     end    
   end
   
   def newcomment
+     respond_to do |format|
+      api_key = params[:api_key]
+      params.delete :api_key
+      user = User.where(["authentication_token = ?", api_key]).first
+      @issue = Issue.where(["id = ?", params[:issue_id]]).first
+      if user.nil?
+        payload = {
+          error: "There is no user with such api_key; please visit /users",
+          status: 401 
+        }
+        format.json {render :json => payload, :status => 401}
+      elsif  @issue.nil?
+        payload = {
+          error: "There is no issue such with issue_id; please visit /issues",
+          status: 422
+        } ############################################################################
+      else 
+        @comment = Comment.new(comment_params)
+        @issue = Issue.find(params[:issue_id])
+        @comment.issue_id = @issue.id
+        @comment.user_id = current_user.id
+        @comment.save
+        respond_to do |format|
+          format.json {render json: @comment, status: :created, each_serializer: CommentSerializer}
+        end
+      end
   end
   
   def getcomment
@@ -334,7 +410,6 @@ class ApiController < ApplicationController
       @issue = Issue.where(["id = ?", params[:issue_id]]).first
       @comment = @issue.comments.find(params[:id])
       if user.nil?
-        # No existe usuario con ese token
         payload = {
           error: "There is no user with such api_key; please visit /users",
           status: 401 
@@ -356,9 +431,9 @@ class ApiController < ApplicationController
          params.delete :issue_id
          params.delete :id
         if issue.update(issue_params.merge(:Status => issue.Status))
-          format.json { render json: issue, status: :ok}
+          format.json { render json: comments, status: :ok}
         else
-          format.json { render json: issue.errors, status: :unprocessable_entity}
+          format.json { render json: comments.errors, status: :unprocessable_entity}
         end
       end
     end    
@@ -366,7 +441,47 @@ class ApiController < ApplicationController
   
   def editcomment
   end
+  
   def deletecomment
+    respond_to do |format|
+    Rails.logger.debug("DELETE COMMENT")
+    api_key = params[:api_key]
+    params.delete :api_key
+    user = User.where(["authentication_token = ?", api_key]).first
+    if user.nil?
+      payload = {
+        error: "There is no user with such api_key; please visit /users",
+        status: 401 
+      }
+      format.json {render :json => payload, :status => 401}
+      
+    else      
+      @issue = Issue.where("id = ?", params[:issue_id]).first
+      @comment = @issue.comments.find(params[:id])
+      if @issue.nil?
+        payload = {
+          error: "There is no issue such with issue_id; please visit /issues",
+          status: 422
+        }
+        format.json{ render :json => payload, :status => 422 }
+      elsif @comment.user_id.to_s != user.id.to_s
+        payload = {
+          error: "The comment does not belong to the user with such api_key",
+          status: 403
+        }
+        format.json{ render :json => payload, :status => 403 }
+      else
+        if @comment.destroy
+          payload = {
+            message: "Successfully deleted comment",
+            status: 200
+          }
+        format.json{ render :json => payload, :status => 200 }
+        else
+          format.json { render json: @comment.errors, status: :unprocessable_entity }
+        end
+      end
+    end
   end
     
     
