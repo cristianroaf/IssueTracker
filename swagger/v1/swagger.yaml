@@ -70,7 +70,8 @@ components:
           type: string
           example: "2019-12-03T08:19:23.477Z"
         updated_at:
-          type: "2019-12-03T08:19:23.477Z"
+          type: string
+          example: "2019-12-03T08:19:23.477Z"
     Comment:
       properties:
         id:
@@ -82,10 +83,15 @@ components:
         user_id:
           type: integer
           example: 1
+        issue_id:
+          type: integer
+          example: 1
         created_at:
           type: string
+          example: "2019-12-03T08:19:23.477Z"
         updated_at:
           type: string
+          example: "2019-12-03T08:19:23.477Z"
 
 
 
