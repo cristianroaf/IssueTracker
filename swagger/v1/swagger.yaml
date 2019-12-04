@@ -20,10 +20,9 @@ security:
 paths:
   "/api/issues":
     get:
-      description: Gets the `Issue` object by the desired category 
       tags:
       - Done
-      summary: "Gets all the Issues"
+      summary: Gets the `Issue` object applying multiple filters and sort
       parameters:
       - in: query
         name: type
@@ -36,7 +35,6 @@ paths:
             - Enhancement
             - Proposal
             - Task
-        
       - in: query
         name: priority
         description: Gets `Issue` objects by priority
@@ -56,8 +54,7 @@ paths:
         schema:
           type: "string"
           enum:
-            - New
-            - Open
+            - New&Open
             - On hold
             - Resolved
             - Duplicate
@@ -65,6 +62,29 @@ paths:
             - Won't fix
             - Closed
             - New&Open
+      - in: query
+        name: sort
+        description: Sorts `Issue` objects by the desired condition
+        required: false
+        schema:
+          type: "string"
+          enum:
+            - votes
+            - priority
+            - kind
+            - status
+            - assignee
+            - created
+            - updated
+            - Title
+            - -votes
+            - -priority
+            - -kind
+            - -status
+            - -assignee
+            - -created
+            - -updated
+            - -Title
       - in: query
         name: assignee
         description: Gets `Issue` objects by assignee
@@ -80,12 +100,17 @@ paths:
       responses:
         '200':
           description: Successful response
+        '400':
+          description: Bad request
+        '401':
+          description: There is no user with such api_key
+        '422':
+          description: Unprocessable entity (wrong parameter)
           
     post:
       tags:
       - Done
-      summary: "Create a new Issue"
-      description: ""
+      summary: "Creates a new Issue with the specified parameters"
       parameters:
       - in: query
         schema:
@@ -129,11 +154,11 @@ paths:
           type: integer
       responses:
         '201':
-          description: "Issue created succesfully"
+          description: Issue created succesfully
         '401':
-          description: "There is no user with such api_key"
+          description: There is no user with such api_key
         '422':
-          description: "Semantic erros in the request"
+          description: Unprocessable entity (wrong parameter)
           
   "/api/issues/{id}/status":
     parameters:
@@ -165,6 +190,12 @@ paths:
       responses:
         '200':
           description: successful
+        '401':
+          description: There is no user with such api_key
+        '403':
+          description: This issue does not belong to the user with such api_key
+        '422':
+          description: There is no issue with such id
             
   "/api/issues/{id}":
     parameters:
@@ -175,26 +206,83 @@ paths:
       description: id
       required: true
     get:
-      summary: Get 'Issue' info from ID
+      summary: Gets an Issue object identified by ID
       tags:
-      - To-do
+      - Done
       responses:
         '200':
           description: successful
+        '401':
+          description: There is no user with such api_key
+        '422':
+          description: There is no issue with such id
     put:
       summary: update issue
       tags:
-      - To-do
+      - Done
+      parameters:
+      - in: query
+        schema:
+          type: "string"
+        name: "Title"
+        required: true
+      - in: query
+        schema:
+          type: "string"
+        name: "Description"
+        required: false
+      - in: "query"
+        name: Type
+        description: Set the type of `Issue`
+        required: false
+        schema:
+          type: "string"
+          enum:
+            - Bug
+            - Enhancement
+            - Proposal
+            - Task
+      - in: "query"
+        name: Priority
+        description: Set the priority of `Issue`
+        required: false
+        schema:
+          type: "string"
+          enum:
+            - Trivial
+            - Minor
+            - Major
+            - Critical
+            - Blocker
+
+      - in: "query"
+        name: asignee_id
+        description: Assigns the `Issue` to the desired user
+        required: false
+        schema:
+          type: integer
       responses:
         '200':
-          description: successful
+          description: Issue updated succesfully
+        '401':
+          description: There is no user with such api_key
+        '403':
+          description: This issue does not belong to the user with such api_key
+        '422':
+          description: Unprocessable entity (wrong parameter)
     delete:
       summary: delete issue
       tags:
-      - To-do
+      - Done
       responses:
         '200':
-          description: successful
+          description: Successfully deleted Issue
+        '401':
+          description: There is no user with such api_key
+        '403':
+          description: This issue does not belong to the user with such api_key
+        '422':
+          description: Unprocessable entity (wrong parameter)
 
   "/api/issues/{id}/vote":
     parameters:
@@ -211,6 +299,7 @@ paths:
       responses:
         '200':
           description: successful
+          
   "/api/issues/{id}/unvote":
     parameters:
     - name: id
@@ -226,6 +315,7 @@ paths:
       responses:
         '200':
           description: successful
+          
   "/api/issues/{id}/watch":
     parameters:
     - name: id

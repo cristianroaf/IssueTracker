@@ -5,6 +5,7 @@ class Issue < ApplicationRecord
     has_many :votes, dependent: :destroy
     has_many :watchers, dependent: :destroy
     validates :Title, :Type, :Priority, :Status, presence: true
+    Rails.logger.debug("PASA POR AQUI?")
     
     has_one_attached :attachment
     
