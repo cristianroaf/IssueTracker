@@ -186,7 +186,18 @@ class ApiController < ApplicationController
         }
         format.json{ render :json => payload, :status => 422 }        
       else
-         format.json { render json: @issue, status: :ok }
+        @userAssigned = User.where(["id = ?",@issue.asignee_id]).first
+        userAssignedName = nil
+        if !@userAssigned.nil?
+          userAssignedName = @userAssigned.name
+        end
+        response = {
+          :issue => @issue,
+          :userCreatorName => user.name,
+          :userAssignedName => userAssignedName
+        }
+        format.json { render :json => response, status: :ok }
+        
       end
     end
   end
